@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: org.fusesource.hawtdispatch:hawtdispatch-scala-2.11:1.22">
+    <CLASSES>
+      <root url="jar://E:/project/repository/org/fusesource/hawtdispatch/hawtdispatch-scala-2.11/1.22/hawtdispatch-scala-2.11-1.22.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://E:/project/repository/org/fusesource/hawtdispatch/hawtdispatch-scala-2.11/1.22/hawtdispatch-scala-2.11-1.22-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://E:/project/repository/org/fusesource/hawtdispatch/hawtdispatch-scala-2.11/1.22/hawtdispatch-scala-2.11-1.22-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -1,0 +1,1 @@
+REPLACE INTO `iot_db_tenant`.`tenant`(`id`, `name`, `business`, `code`, `cellphone`, `email`, `create_time`, `contacts`, `job`, `country`, `province`, `city`, `address`, `type`) VALUES (-1, 'BOSS', '运营平台', 'BOSS', '16888888888', 'cloud@leedarson.com', NOW(), '', '', 'USA', 'WA', 'SEA', '', 1);

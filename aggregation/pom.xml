@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.iot</groupId>
+    <artifactId>cloud</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+  <artifactId>aggregation</artifactId>
+  <packaging>pom</packaging>
+  <name>aggregation</name>
+  <description>aggregation</description>
+  <modules>
+    <module>wiSensor-sdk-project</module>
+    <module>oauth2.0</module>
+    <module>boss</module>
+    <module>smart-home</module>
+    <module>center-control-portal</module>
+    <module>center-control-cloud</module>
+    <module>center-control-external-device</module>
+    <module>registration-app</module>
+    <module>robot</module>
+    <module>zipkin</module>
+    <module>tenant-portal</module>
+    <module>performance</module>
+    <module>open-api</module>
+  </modules>
+</project>

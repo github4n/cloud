@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: app-pack-service
+  profiles:
+    active: dev
+server:
+  port: 8686

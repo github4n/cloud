@@ -1,0 +1,81 @@
+{
+  "header": {
+    "messageId": "ddadadad",
+    "name": "DiscoverAppliancesResponse",
+    "namespace": "Alexa.ConnectedHome.Discovery",
+    "payloadVersion": "2"
+  },
+  "payload": {
+    "discoveredAppliances": [
+      {
+        "actions": [
+          "incrementTargetTemperature",
+          "decrementTargetTemperature",
+          "setTargetTemperature",
+          "getTargetTemperature",
+          "getTemperatureReading"
+        ],
+        "applianceTypes": [
+          "THERMOSTAT"
+        ],
+        "additionalApplianceDetails": {
+          "extraDetail1": "optionalDetailForSkillAdapterToReferenceThisDevice",
+          "extraDetail2": "There can be multiple entries",
+          "extraDetail3": "but they should only be used for reference purposes.",
+          "extraDetail4": "This is not a suitable place to maintain current device state"
+        },
+        "applianceId": "1234",
+        "friendlyDescription": "descriptionThatIsShownToCustomer",
+        "friendlyName": "Bedroom Thermostat",
+        "isReachable": true,
+        "manufacturerName": "leedarson",
+        "modelName": "fancyThermostat",
+        "version": "1.0"
+      },
+      {
+        "actions": [
+          "incrementPercentage",
+          "decrementPercentage",
+          "setPercentage",
+          "turnOn",
+          "turnOff",
+          "setColor",
+          "setColorTemperature",
+          "incrementColorTemperature",
+          "decrementColorTemperature"
+        ],
+        "applianceTypes": [
+          "LIGHT"
+        ],
+        "additionalApplianceDetails": {},
+        "applianceId": "2222",
+        "friendlyDescription": "discoveredAppliance2",
+        "friendlyName": "Living Room",
+        "isReachable": true,
+        "manufacturerName": "leedarson",
+        "modelName": "fancyThermostat",
+        "version": "1.0"
+      },
+      {
+        "actions": [
+          "incrementPercentage",
+          "decrementPercentage",
+          "setPercentage",
+          "turnOn",
+          "turnOff"
+        ],
+        "applianceTypes": [
+          "LIGHT"
+        ],
+        "additionalApplianceDetails": {},
+        "applianceId": "2242",
+        "friendlyDescription": "descriptionThatIsShownToCustomer",
+        "friendlyName": "bedroom lamp",
+        "isReachable": true,
+        "manufacturerName": "leedarson",
+        "modelName": "fancySwitch",
+        "version": "1.0"
+      }
+    ]
+  }
+}

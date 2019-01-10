@@ -1,0 +1,82 @@
+server:
+  port: 8050
+
+spring:
+  application:
+    name: admin-service
+  boot:
+    admin:
+      routes:
+        endpoints: env,metrics,dump,jolokia,info,configprops,trace,logfile,refresh,flyway,liquibase,heapdump,loggers,auditevents,hystrix.stream,turbine.stream
+      turbine:
+        clusters: MAIN
+        location: smart-home
+
+  rabbitmq:
+    host: 172.24.185.17
+    port: 5672
+    username: admin
+    password: admin123
+
+  mail:
+    host: mail.leedarson.com
+    username: cloud@leedarson.com
+    password: cloud@321
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://admin:a!23456@192.168.5.20:8761/eureka/
+#      defaultZone: http://admin:a!23456@127.0.0.1:8761/eureka/
+  instance:
+    instanceId: ${spring.cloud.client.ipAddress}:${server.port}:${spring.application.name}:${spring.application.instance_id:${random.value}}
+    leaseRenewalIntervalInSeconds: 5
+    prefer-ip-address: true
+    metadata-map:
+      cluster: MAIN
+      user.name: admin
+      user.password: a!23456
+
+turbine:
+  app-config: smart-home #需要监控的服务名
+  cluster-name-expression: metadata['cluster']
+  combine-host-port: true
+
+management:
+  security:
+    enabled: false
+  health:
+    mail:
+      enabled: false
+security:
+  user:
+    name: admin
+    password: a!23456
+  basic:
+    enabled: false
+
+sms:
+  aliyun:
+    accessKey: accessKey
+    secretKey: secretKey
+    channels:
+      loginCodeChannel: SMS_34630023
+      serviceStatusChange: SMS_134310585
+notifier:
+  mobile:
+    enabled: false
+    mobiles:
+      - 18094041872
+  email:
+    enabled: false
+    emails:
+      - huanglingcong@leedarson.com
+      - linchen@leedarson.com
+      - qizhiyong@leedarson.com

@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.iot.mapper.SpaceMapper">
+	<resultMap id="BaseResultMap" type="com.iot.domain.Space">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="icon" property="icon" jdbcType="VARCHAR" />
+		<result column="position" property="position" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="parent_id" property="parentId" jdbcType="VARCHAR" />
+		<result column="user_id" property="userId" jdbcType="VARCHAR" />
+		<result column="location_id" property="locationId" jdbcType="VARCHAR" />
+		<result column="create_by" property="createBy" jdbcType="VARCHAR" />
+		<result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+		<result column="type" property="type" jdbcType="CHAR" />
+		<result column="sort" property="sort" jdbcType="INTEGER" />
+		<result column="tenant_id" property="tenantId" jdbcType="VARCHAR" />
+		<result column="registered" property="registered" jdbcType="TINYINT" />
+		<result column="bookable" property="bookable" jdbcType="INTEGER" />
+		<result column="already_booked" property="alreadyBooked"
+			jdbcType="INTEGER" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<resultMap id="ResultMapWithBLOBs" type="com.iot.domain.Space"
+			   extends="BaseResultMap">
+		<result column="style" property="style" jdbcType="LONGVARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, icon, position, name, parent_id, user_id, location_id,
+		create_by,
+		update_by,
+		type, sort, tenant_id, registered, bookable,
+		already_booked, create_time,
+		update_time
+	</sql>
+	<sql id="Blob_Column_List">
+		style
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from space
+		where id = #{id,jdbcType=VARCHAR}
+	</select>
+	<select id="findSpaceRelationshipBytenantId" resultMap="ResultMapWithBLOBs"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from space
+		where tenant_id = #{tenantId} and type = 'BUILD'
+		order by
+		name desc
+	</select>
+
+
+	<select id="findSpaceByParentId" resultMap="ResultMapWithBLOBs"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from space
+		where parent_id = #{parentId}
+		order by sort asc
+	</select>
+
+	<select id="countUserUsedAmounts" resultType="java.lang.Integer"
+		parameterType="Map">
+		select COUNT(1) 
+		FROM lds_space_date sd LEFT JOIN lds_user_space_used us on
+		sd.space_date_id = us.space_date_id
+		WHERE
+		sd.space_id = #{spaceId} and sd.tenant_id = #{tenantId} and
+		unix_timestamp(sd.begin_time) <![CDATA[ <= ]]> unix_timestamp(now()) 
+		and	unix_timestamp(now()) <![CDATA[ <= ]]> unix_timestamp(sd.end_time)
+	</select>
+
+	<select id="countUserSubscribeAmounts" resultType="java.lang.Integer"
+		parameterType="Map">
+		SELECT
+		COUNT(1)
+		FROM
+		lds_space_date a LEFT JOIN lds_user_space_subscribe us
+		ON a.space_date_id = us.space_date_id
+		WHERE 
+		a.space_id = #{spaceId,jdbcType=VARCHAR} and 
+		a.tenant_id = #{tenantId,jdbcType=VARCHAR} and
+		unix_timestamp(a.begin_time) <![CDATA[ <= ]]> unix_timestamp(now())
+		AND unix_timestamp(now()) <![CDATA[ <= ]]> unix_timestamp(a.end_time)
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from space
+		where id = #{id,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="com.iot.domain.Space">
+		insert into space (id, icon,
+		position,
+		name, parent_id, user_id,
+		location_id, create_by, update_by,
+		type, sort, tenant_id,
+		registered, bookable, already_booked,
+		create_time, update_time, style
+		)
+		values (#{id,jdbcType=VARCHAR},
+		#{icon,jdbcType=VARCHAR},
+		#{position,jdbcType=VARCHAR},
+		#{name,jdbcType=VARCHAR}, #{parentId,jdbcType=VARCHAR},
+		#{userId,jdbcType=VARCHAR},
+		#{locationId,jdbcType=VARCHAR},
+		#{createBy,jdbcType=VARCHAR},
+		#{updateBy,jdbcType=VARCHAR},
+		#{type,jdbcType=CHAR}, #{sort,jdbcType=INTEGER},
+		#{tenantId,jdbcType=VARCHAR},
+		#{registered,jdbcType=TINYINT},
+		#{bookable,jdbcType=INTEGER},
+		#{alreadyBooked,jdbcType=INTEGER},
+		#{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},
+		#{style,jdbcType=LONGVARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.iot.domain.Space">
+		insert into space
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="icon != null">
+				icon,
+			</if>
+			<if test="position != null">
+				position,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="parentId != null">
+				parent_id,
+			</if>
+			<if test="userId != null">
+				user_id,
+			</if>
+			<if test="locationId != null">
+				location_id,
+			</if>
+			<if test="createBy != null">
+				create_by,
+			</if>
+			<if test="updateBy != null">
+				update_by,
+			</if>
+			<if test="type != null">
+				type,
+			</if>
+			<if test="sort != null">
+				sort,
+			</if>
+			<if test="tenantId != null">
+				tenant_id,
+			</if>
+			<if test="registered != null">
+				registered,
+			</if>
+			<if test="bookable != null">
+				bookable,
+			</if>
+			<if test="alreadyBooked != null">
+				already_booked,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="updateTime != null">
+				update_time,
+			</if>
+			<if test="style != null">
+				style,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="icon != null">
+				#{icon,jdbcType=VARCHAR},
+			</if>
+			<if test="position != null">
+				#{position,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="parentId != null">
+				#{parentId,jdbcType=VARCHAR},
+			</if>
+			<if test="userId != null">
+				#{userId,jdbcType=VARCHAR},
+			</if>
+			<if test="locationId != null">
+				#{locationId,jdbcType=VARCHAR},
+			</if>
+			<if test="createBy != null">
+				#{createBy,jdbcType=VARCHAR},
+			</if>
+			<if test="updateBy != null">
+				#{updateBy,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=CHAR},
+			</if>
+			<if test="sort != null">
+				#{sort,jdbcType=INTEGER},
+			</if>
+			<if test="tenantId != null">
+				#{tenantId,jdbcType=VARCHAR},
+			</if>
+			<if test="registered != null">
+				#{registered,jdbcType=TINYINT},
+			</if>
+			<if test="bookable != null">
+				#{bookable,jdbcType=INTEGER},
+			</if>
+			<if test="alreadyBooked != null">
+				#{alreadyBooked,jdbcType=INTEGER},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="style != null">
+				#{style,jdbcType=LONGVARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.iot.domain.Space">
+		update space
+		<set>
+			<if test="icon != null">
+				icon = #{icon,jdbcType=VARCHAR},
+			</if>
+			<if test="position != null">
+				position = #{position,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="parentId != null">
+				parent_id = #{parentId,jdbcType=VARCHAR},
+			</if>
+			<if test="userId != null">
+				user_id = #{userId,jdbcType=VARCHAR},
+			</if>
+			<if test="locationId != null">
+				location_id = #{locationId,jdbcType=VARCHAR},
+			</if>
+			<if test="createBy != null">
+				create_by = #{createBy,jdbcType=VARCHAR},
+			</if>
+			<if test="updateBy != null">
+				update_by = #{updateBy,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				type = #{type,jdbcType=CHAR},
+			</if>
+			<if test="sort != null">
+				sort = #{sort,jdbcType=INTEGER},
+			</if>
+			<if test="tenantId != null">
+				tenant_id = #{tenantId,jdbcType=VARCHAR},
+			</if>
+			<if test="registered != null">
+				registered = #{registered,jdbcType=TINYINT},
+			</if>
+			<if test="bookable != null">
+				bookable = #{bookable,jdbcType=INTEGER},
+			</if>
+			<if test="alreadyBooked != null">
+				already_booked = #{alreadyBooked,jdbcType=INTEGER},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="style != null">
+				style = #{style,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKeyWithBLOBs" parameterType="com.iot.domain.Space">
+		update
+		space
+		set icon = #{icon,jdbcType=VARCHAR},
+		position =
+		#{position,jdbcType=VARCHAR},
+		name = #{name,jdbcType=VARCHAR},
+		parent_id = #{parentId,jdbcType=VARCHAR},
+		user_id =
+		#{userId,jdbcType=VARCHAR},
+		location_id =
+		#{locationId,jdbcType=VARCHAR},
+		create_by =
+		#{createBy,jdbcType=VARCHAR},
+		update_by = #{updateBy,jdbcType=VARCHAR},
+		type = #{type,jdbcType=CHAR},
+		sort = #{sort,jdbcType=INTEGER},
+		tenant_id = #{tenantId,jdbcType=VARCHAR},
+		registered =
+		#{registered,jdbcType=TINYINT},
+		bookable =
+		#{bookable,jdbcType=INTEGER},
+		already_booked =
+		#{alreadyBooked,jdbcType=INTEGER},
+		create_time =
+		#{createTime,jdbcType=TIMESTAMP},
+		update_time =
+		#{updateTime,jdbcType=TIMESTAMP},
+		style = #{style,jdbcType=LONGVARCHAR}
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.iot.domain.Space">
+		update space
+		set
+		icon = #{icon,jdbcType=VARCHAR},
+		position =
+		#{position,jdbcType=VARCHAR},
+		name = #{name,jdbcType=VARCHAR},
+		parent_id = #{parentId,jdbcType=VARCHAR},
+		user_id =
+		#{userId,jdbcType=VARCHAR},
+		location_id =
+		#{locationId,jdbcType=VARCHAR},
+		create_by =
+		#{createBy,jdbcType=VARCHAR},
+		update_by = #{updateBy,jdbcType=VARCHAR},
+		type = #{type,jdbcType=CHAR},
+		sort = #{sort,jdbcType=INTEGER},
+		tenant_id = #{tenantId,jdbcType=VARCHAR},
+		registered =
+		#{registered,jdbcType=TINYINT},
+		bookable =
+		#{bookable,jdbcType=INTEGER},
+		already_booked =
+		#{alreadyBooked,jdbcType=INTEGER},
+		create_time =
+		#{createTime,jdbcType=TIMESTAMP},
+		update_time =
+		#{updateTime,jdbcType=TIMESTAMP}
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+</mapper>

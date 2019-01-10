@@ -1,0 +1,74 @@
+<!doctype html>
+<html class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>Amaze UI Examples</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-siteapp"/>
+  <link rel="stylesheet" href="../static/css/amazeui.min.css">
+  <link rel="stylesheet" href="../static/css/app.css">
+</head>
+<body>
+<!-- #set($base = ${link.getContextPath()})
+$cookie.setRequest($request)
+#if($base == "/") 
+	#set($base = "") 
+#end -->
+<div class="am-g myapp-login">
+	<div class="myapp-login-logo-block">
+		<div class="myapp-login-logo-text">
+			<div class="myapp-login-logo-text">
+				leedarson<span>Sync</span> <i class="am-icon-skyatlas"></i>
+				
+			</div>
+		</div>
+		<div class="am-u-sm-10 login-am-center">
+			<form class="am-form" id="formId" action="${base}/OAuth2/authorization">
+			    <input type="hidden" name="client_id" value="$!{client_id}"/>
+			    <input type="hidden" name="redirect_uri" value="$!{redirect_uri}"/>
+			    <input type="hidden" name="access_type" value="$!{access_type}"/>
+			    <input type="hidden" name="approval_prompt" value="$!{approval_prompt}"/>
+			    <input type="hidden" name="domain" value="$!{domain}"/>
+			    <input type="hidden" name="scope" value="$!{scope}"/>
+			    <input type="hidden" name="state" value="$!{state}"/>
+			    <input type="hidden" name="response_type" value="$!{response_type}"/>			    
+				<button type="submit" class="am-btn am-btn-default" id="button">authorize</button>
+				
+			</form>
+		</div>
+	</div>
+</div>
+<!--[if (gte IE 9)|!(IE)]><!-->
+<script src="../static/js/jquery.min.js"></script>
+<!--<![endif]-->
+<!--[if lte IE 8 ]>
+<script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="assets/js/amazeui.ie8polyfill.min.js"></script>
+<![endif]-->
+<script src="../static/js/amazeui.min.js"></script>
+<script src="../static/js/app.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	var ctx="${base}";
+	  $("#button").click(function(e){
+          $.ajax({
+              type: "POST",
+              dataType: "json",
+              url: ctx+"OAuth2/authorization",
+              data: $('#formId').serialize(),
+              success: function (result) {
+              },
+              error: function(data) {
+               }
+          });		
+	  });
+	});
+</script>
+</body>
+</html>

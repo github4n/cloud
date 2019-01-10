@@ -1,0 +1,15 @@
+REPLACE INTO `iot_db_system`.`sys_dict_type` (`type_id`, `type_name`) VALUES ('1', '商品规格单位');
+REPLACE INTO `iot_db_system`.`sys_dict_type` (`type_id`, `type_name`) VALUES ('2', '订单类型');
+REPLACE INTO `iot_db_system`.`sys_dict_type` (`type_id`, `type_name`) VALUES ('3', '订单状态');
+REPLACE INTO `iot_db_system`.`sys_dict_type` (`type_id`, `type_name`) VALUES ('4', '商品类型');
+REPLACE INTO `iot_db_system`.`sys_dict_type` (`type_id`, `type_name`) VALUES ('5', 'UUID订单状态');
+REPLACE INTO `iot_db_system`.`sys_dict_type` (`type_id`, `type_name`) VALUES ('6', 'UUID激活状态');
+REPLACE INTO `iot_db_system`.`sys_dict_type` (`type_id`, `type_name`) VALUES ('7', 'UUID支付状态');
+REPLACE INTO `iot_db_system`.`sys_dict_type` (`type_id`, `type_name`) VALUES ('8', '升级包类型');
+REPLACE INTO `iot_db_system`.`sys_dict_type` (`type_id`, `type_name`) VALUES ('9', '邮件模板');
+REPLACE INTO `iot_db_system`.`sys_dict_type` (`type_id`, `type_name`) VALUES ('10', '联系我们');
+REPLACE INTO `iot_db_system`.`sys_dict_type` (`type_id`, `type_name`) VALUES ('11', 'UUID支付跳转URL');
+REPLACE INTO `iot_db_system`.`sys_dict_type` (`type_id`, `type_name`) VALUES ('12', 'Google接入支付跳转URL');
+REPLACE INTO `iot_db_system`.`sys_dict_type` (`type_id`, `type_name`) VALUES ('13', 'APP打包跳转URL');
+REPLACE INTO `iot_db_system`.`sys_dict_type` (`type_id`, `type_name`) VALUES ('14', '套包类型');
+REPLACE INTO `iot_db_system`.`sys_dict_type` (`type_id`, `type_name`) VALUES ('15', '配网模式code');

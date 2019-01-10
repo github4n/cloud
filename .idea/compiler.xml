@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="admin-service" />
+        <module name="air-switch-service" />
+        <module name="air-switch-service-interface" />
+        <module name="app-pack-service" />
+        <module name="boss" />
+        <module name="boss-service" />
+        <module name="boss-service-interface" />
+        <module name="center-control-cloud" />
+        <module name="center-control-external-device" />
+        <module name="center-control-portal" />
+        <module name="control-service" />
+        <module name="control-service-interface" />
+        <module name="core" />
+        <module name="device-service" />
+        <module name="device-service-interface" />
+        <module name="eureka-service" />
+        <module name="file-service" />
+        <module name="file-service-interface" />
+        <module name="hystrix-dashboard" />
+        <module name="ifttt-service" />
+        <module name="ifttt-service-interface" />
+        <module name="message-service" />
+        <module name="message-service-interface" />
+        <module name="mobile-gateway" />
+        <module name="mqtt-sdk-project" />
+        <module name="mqttploy-service" />
+        <module name="mqttploy-service-interface" />
+        <module name="oauth2" />
+        <module name="open-api" />
+        <module name="open-api-service" />
+        <module name="open-api-service-interface" />
+        <module name="payment-service" />
+        <module name="payment-service-interface" />
+        <module name="performance" />
+        <module name="permission-service" />
+        <module name="permission-service-interface" />
+        <module name="registration-app" />
+        <module name="report-service" />
+        <module name="report-service-interface" />
+        <module name="robot" />
+        <module name="schedule-service" />
+        <module name="schedule-service-interface" />
+        <module name="smart-building-service" />
+        <module name="smart-building-service-interface" />
+        <module name="smart-home" />
+        <module name="smart-home-service" />
+        <module name="smart-home-service-interface" />
+        <module name="system-service" />
+        <module name="system-service-interface" />
+        <module name="tenant-portal" />
+        <module name="tenant-service" />
+        <module name="tenant-service-interface" />
+        <module name="user-service" />
+        <module name="user-service-interface" />
+        <module name="video-service" />
+        <module name="video-service-interface" />
+        <module name="wiSensor-sdk-project" />
+        <module name="zipkin" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="admin-service" target="1.8" />
+      <module name="aggregation" target="1.8" />
+      <module name="air-switch-project" target="1.8" />
+      <module name="air-switch-service" target="1.8" />
+      <module name="air-switch-service-interface" target="1.6" />
+      <module name="app-pack-service" target="1.8" />
+      <module name="boss" target="1.8" />
+      <module name="boss-service" target="1.8" />
+      <module name="boss-service-interface" target="1.6" />
+      <module name="boss-service-project" target="1.8" />
+      <module name="business-service" target="1.8" />
+      <module name="center-control-cloud" target="1.8" />
+      <module name="center-control-external-device" target="1.8" />
+      <module name="center-control-portal" target="1.8" />
+      <module name="cloud" target="1.8" />
+      <module name="common-service" target="1.8" />
+      <module name="control-service" target="1.8" />
+      <module name="control-service-interface" target="1.8" />
+      <module name="control-service-project" target="1.8" />
+      <module name="core" target="1.8" />
+      <module name="device-service" target="1.8" />
+      <module name="device-service-interface" target="1.8" />
+      <module name="device-service-project" target="1.8" />
+      <module name="eureka-service" target="1.8" />
+      <module name="file-service" target="1.8" />
+      <module name="file-service-interface" target="1.8" />
+      <module name="file-service-project" target="1.8" />
+      <module name="gateway" target="1.8" />
+      <module name="hystrix-dashboard" target="1.8" />
+      <module name="ifttt-service" target="1.8" />
+      <module name="ifttt-service-interface" target="1.8" />
+      <module name="ifttt-service-project" target="1.8" />
+      <module name="message-service" target="1.8" />
+      <module name="message-service-interface" target="1.8" />
+      <module name="message-service-project" target="1.8" />
+      <module name="mobile-gateway" target="1.8" />
+      <module name="mqtt-sdk-project" target="1.8" />
+      <module name="mqttploy-service" target="1.8" />
+      <module name="mqttploy-service-interface" target="1.8" />
+      <module name="mqttploy-service-project" target="1.8" />
+      <module name="oauth2" target="1.8" />
+      <module name="open-api" target="1.8" />
+      <module name="open-api-service" target="1.8" />
+      <module name="open-api-service-interface" target="1.8" />
+      <module name="open-api-service-project" target="1.8" />
+      <module name="payment-service" target="1.8" />
+      <module name="payment-service-interface" target="1.8" />
+      <module name="payment-service-project" target="1.8" />
+      <module name="performance" target="1.8" />
+      <module name="permission-service" target="1.8" />
+      <module name="permission-service-interface" target="1.8" />
+      <module name="permission-service-project" target="1.8" />
+      <module name="registration-app" target="1.8" />
+      <module name="report-service" target="1.8" />
+      <module name="report-service-interface" target="1.8" />
+      <module name="report-service-project" target="1.8" />
+      <module name="robot" target="1.8" />
+      <module name="schedule-service" target="1.8" />
+      <module name="schedule-service-interface" target="1.5" />
+      <module name="schedule-service-project" target="1.8" />
+      <module name="smart-building-service" target="1.8" />
+      <module name="smart-building-service-interface" target="1.8" />
+      <module name="smart-building-service-project" target="1.8" />
+      <module name="smart-home" target="1.8" />
+      <module name="smart-home-service" target="1.8" />
+      <module name="smart-home-service-interface" target="1.8" />
+      <module name="smart-home-service-project" target="1.8" />
+      <module name="system-service" target="1.8" />
+      <module name="system-service-interface" target="1.8" />
+      <module name="system-service-project" target="1.8" />
+      <module name="tenant-portal" target="1.8" />
+      <module name="tenant-service" target="1.8" />
+      <module name="tenant-service-interface" target="1.8" />
+      <module name="tenant-service-project" target="1.8" />
+      <module name="user-service" target="1.8" />
+      <module name="user-service-interface" target="1.8" />
+      <module name="user-service-project" target="1.8" />
+      <module name="video-service" target="1.8" />
+      <module name="video-service-interface" target="1.8" />
+      <module name="video-service-project" target="1.8" />
+      <module name="wiSensor-sdk-project" target="1.8" />
+      <module name="zipkin" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

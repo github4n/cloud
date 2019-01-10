@@ -1,0 +1,2 @@
+-- 20180929 安防套包模板, 更新延时执行时间为 30秒
+update `iot_db_control`.ifttt_actuator set delay=30 where rule_id in(select id from `iot_db_control`.ifttt_rule where id in(select rule_id from `iot_db_control`.template_ifttt where template_id in(select id from `iot_db_control`.template where template_type='kit')));

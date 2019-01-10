@@ -1,0 +1,1 @@
+replace INTO `iot_db_message`.`tenant_mail_info` (`id`, `tenant_id`, `mail_host`, `mail_name`, `pass_word`, `create_time`, `update_time`, `data_status`, `mail_port`, `app_id`) VALUES ('106', '-1', 'mail.leedarson.com', 'cloud@leedarson.com', 'cloud@321', '2018-10-22 16:24:19', NULL, NULL, '465', '-1');

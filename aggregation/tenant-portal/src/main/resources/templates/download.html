@@ -1,0 +1,37 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Download</title>
+    <script type="text/javascript">
+                var browser = {
+                    versions: function() {
+                        var u = navigator.userAgent;
+                        return { //移动终端浏览器版本信息
+                            ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+                            android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+                            iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者QQHD浏览器
+                            iPad: u.indexOf('iPad') > -1
+                        };
+                    }(),
+                    language: (navigator.browserLanguage || navigator.language).toLowerCase()
+                }
+
+                function skip(){
+                    if (browser.versions.ios || browser.versions.iPhone || browser.versions.iPad) {
+                        window.location = document.getElementById("ios").innerText;
+                    } else if (browser.versions.android) {
+                        window.location = document.getElementById("android").innerText;
+                    } else {
+                        document.body.style.display = "block";
+                    }
+                }
+    </script>
+</head>
+
+<body onload="skip()" style="display: none;">
+    <h1>Parameter error</h1>
+    <p style="display: none;" id="ios" th:text="${ios}"></p>
+    <p style="display: none;" id="android" th:text="${android}"></p>
+</body>
+
+</html>

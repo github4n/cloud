@@ -1,0 +1,29 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.iot</groupId>
+        <artifactId>cloud</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+    <artifactId>business-service</artifactId>
+    <packaging>pom</packaging>
+    <name>business-service</name>
+    <description>business-service</description>
+    <modules>
+        <!--<module>space-service-project</module>-->
+        <module>ifttt-service-project</module>
+        <!--<module>scene-service-project</module>-->
+       <!-- <module>subscribe-service-project</module>-->
+        <!--<module>video-business-project</module>-->
+        <module>control-service-project</module>
+        <module>video-service-project</module>
+        <module>schedule-service-project</module>
+        <module>boss-service-project</module>
+        <module>smart-home-service-project</module>
+        <module>smart-building-service-project</module>
+        <module>open-api-service-project</module>
+        <module>air-switch-project</module>
+        <module>report-service-project</module>
+    </modules>
+</project>

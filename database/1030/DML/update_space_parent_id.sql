@@ -1,0 +1,1 @@
+UPDATE iot_db_control.space set parent_id=-1 WHERE parent_id is null;

@@ -1,0 +1,1 @@
+ALTER TABLE `iot_db_boss`.`malf_proces_log` MODIFY COLUMN `handle_type`  tinyint(2) NULL DEFAULT NULL COMMENT '处理类型  0：分派完毕 1：确认故障  2：处理完毕 3：确认已修复 4：确认未修复 5：确认是问题  ' AFTER `malf_id`;

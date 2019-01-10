@@ -1,0 +1,16 @@
+REPLACE INTO `role` VALUES (1, 'Boss-Owner', 'Owner', 'Boss', 1, '拥有者', NULL, '2018-10-19 07:23:09', NULL, NULL, 'valid');
+REPLACE INTO `role` VALUES (2, 'Boss-Manager', 'Manager', 'Boss', 1, '管理者', NULL, '2018-10-19 07:23:09', NULL, NULL, 'valid');
+REPLACE INTO `role` VALUES (3, 'Boss-ProductManager', 'ProductManager', 'Boss', 1, '产品经理', NULL, '2018-10-19 07:23:09', NULL, NULL, 'valid');
+REPLACE INTO `role` VALUES (4, 'Boss-APPDeveloper', 'APPDeveloper', 'Boss', 1, 'APP开发人员', NULL, '2018-10-19 07:23:09', NULL, NULL, 'valid');
+REPLACE INTO `role` VALUES (5, 'Boss-EmbeddedDeveloper', 'EmbeddedDeveloper', 'Boss', 1, '嵌入式开发人员', NULL, '2018-10-19 07:23:09', NULL, NULL, 'valid');
+REPLACE INTO `role` VALUES (6, 'Boss-Tester', 'Tester', 'Boss', 1, '测试人员', NULL, '2018-10-19 07:23:09', NULL, NULL, 'valid');
+REPLACE INTO `role` VALUES (7, 'Boss-Operator', 'Operator', 'Boss', 1, '运营人员', NULL, '2018-10-19 07:23:09', NULL, NULL, 'valid');
+REPLACE INTO `role` VALUES (8, 'Boss-DataQueryer', 'DataQueryer', 'Boss', 1, '数据查询人员', NULL, '2018-10-19 07:23:09', NULL, NULL, 'valid');
+REPLACE INTO `role` VALUES (9, 'role:name:2B-Owner', 'Owner', 'Portal', NULL, 'role:desc:2B-Owner', NULL, '2018-12-24 05:53:09', NULL, NULL, 'valid');
+REPLACE INTO `role` VALUES (10, 'role:name:2B-Manager', 'Manager', 'Portal', NULL, 'role:desc:2B-Manager', NULL, '2018-12-24 05:53:13', NULL, NULL, 'valid');
+REPLACE INTO `role` VALUES (11, 'role:name:2B-ProductManager', 'ProductManager', 'Portal', NULL, 'role:desc:2B-ProductManager', NULL, '2018-12-24 05:53:13', NULL, NULL, 'valid');
+REPLACE INTO `role` VALUES (12, 'role:name:2B-APPDeveloper', 'APPDeveloper', 'Portal', NULL, 'role:desc:2B-APPDeveloper', NULL, '2018-12-24 05:53:13', NULL, NULL, 'valid');
+REPLACE INTO `role` VALUES (13, 'role:name:2B-EmbeddedDeveloper', 'EmbeddedDeveloper', 'Portal', NULL, 'role:desc:2B-EmbeddedDeveloper', NULL, '2018-12-24 05:53:13', NULL, NULL, 'valid');
+REPLACE INTO `role` VALUES (14, 'role:name:2B-Tester', 'Tester', 'Portal', NULL, 'role:desc:2B-Tester', NULL, '2018-12-24 05:53:13', NULL, NULL, 'valid');
+REPLACE INTO `role` VALUES (15, 'role:name:2B-Operator', 'Operator', 'Portal', NULL, 'role:desc:2B-Operator', NULL, '2018-12-24 05:53:13', NULL, NULL, 'valid');
+REPLACE INTO `role` VALUES (16, 'role:name:2B-DataQueryer', 'DataQueryer', 'Portal', NULL, 'role:desc:2B-DataQueryer', NULL, '2018-12-24 05:53:13', NULL, NULL, 'valid');

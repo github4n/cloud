@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iot.mapper.SpaceDateMapper">
+	<resultMap id="BaseResultMap" type="com.iot.domain.SpaceDate">
+		<id column="space_date_id" jdbcType="VARCHAR" property="spaceDateId" />
+		<result column="space_id" jdbcType="VARCHAR" property="spaceId" />
+		<result column="space_name" jdbcType="VARCHAR" property="spaceName" />
+		<result column="tenant_id" jdbcType="VARCHAR" property="tenantId" />
+		<result column="setting_date" jdbcType="TIMESTAMP" property="settingDate" />
+		<result column="begin_time" jdbcType="TIMESTAMP" property="beginTime" />
+		<result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+		<result column="galleryful" jdbcType="INTEGER" property="galleryful" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+		<result column="create_by" jdbcType="VARCHAR" property="createBy" />
+		<result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+		<result column="is_deleted" jdbcType="TINYINT" property="isDeleted" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		space_date_id, space_id, tenant_id, setting_date, begin_time, end_time, galleryful,
+		create_time,
+		update_time, create_by, update_by, is_deleted
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from lds_space_date
+		where space_date_id = #{spaceDateId,jdbcType=VARCHAR}
+	</select>
+
+	<select id="selectSpaceDateIdBySpaceId" resultMap="BaseResultMap"
+		parameterType="Map">
+		select
+		sd.space_date_id, sd.space_id, sd.tenant_id, sd.setting_date, sd.begin_time,
+		sd.end_time, sd.galleryful, sd.create_time,
+		sd.update_time, sd.create_by, sd.update_by, sd.is_deleted, s.name as space_name
+		from lds_space_date sd left join space s on sd.space_id = s.id
+		where
+		sd.space_id = #{spaceId} and sd.setting_date = #{settingDate} 
+		and unix_timestamp(begin_time) >= unix_timestamp(now())
+	</select>
+
+	<select id="findSpaceDateByDate" resultMap="BaseResultMap"
+		parameterType="Map">
+		select DISTINCT
+		space_id, tenant_id, setting_date
+		from lds_space_date
+		where
+		setting_date = #{settingDate} and tenant_id = #{tenantId}
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from lds_space_date
+		where space_date_id = #{spaceDateId,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="com.iot.domain.SpaceDate">
+		insert into lds_space_date (space_date_id, space_id, tenant_id,
+		setting_date, begin_time, end_time,
+		galleryful, create_time, update_time,
+		create_by, update_by, is_deleted
+		)
+		values (#{spaceDateId,jdbcType=VARCHAR}, #{spaceId,jdbcType=VARCHAR},
+		#{tenantId,jdbcType=VARCHAR},
+		#{settingDate,jdbcType=TIMESTAMP}, #{beginTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP},
+		#{galleryful,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP},
+		#{updateTime,jdbcType=TIMESTAMP},
+		#{createBy,jdbcType=VARCHAR}, #{updateBy,jdbcType=VARCHAR}, #{isDeleted,jdbcType=TINYINT}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.iot.domain.SpaceDate">
+		insert into lds_space_date
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="spaceDateId != null">
+				space_date_id,
+			</if>
+			<if test="spaceId != null">
+				space_id,
+			</if>
+			<if test="tenantId != null">
+				tenant_id,
+			</if>
+			<if test="settingDate != null">
+				setting_date,
+			</if>
+			<if test="beginTime != null">
+				begin_time,
+			</if>
+			<if test="endTime != null">
+				end_time,
+			</if>
+			<if test="galleryful != null">
+				galleryful,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="updateTime != null">
+				update_time,
+			</if>
+			<if test="createBy != null">
+				create_by,
+			</if>
+			<if test="updateBy != null">
+				update_by,
+			</if>
+			<if test="isDeleted != null">
+				is_deleted,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="spaceDateId != null">
+				#{spaceDateId,jdbcType=VARCHAR},
+			</if>
+			<if test="spaceId != null">
+				#{spaceId,jdbcType=VARCHAR},
+			</if>
+			<if test="tenantId != null">
+				#{tenantId,jdbcType=VARCHAR},
+			</if>
+			<if test="settingDate != null">
+				#{settingDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="beginTime != null">
+				#{beginTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="endTime != null">
+				#{endTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="galleryful != null">
+				#{galleryful,jdbcType=INTEGER},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createBy != null">
+				#{createBy,jdbcType=VARCHAR},
+			</if>
+			<if test="updateBy != null">
+				#{updateBy,jdbcType=VARCHAR},
+			</if>
+			<if test="isDeleted != null">
+				#{isDeleted,jdbcType=TINYINT},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.iot.domain.SpaceDate">
+		update lds_space_date
+		<set>
+			<if test="spaceId != null">
+				space_id = #{spaceId,jdbcType=VARCHAR},
+			</if>
+			<if test="tenantId != null">
+				tenant_id = #{tenantId,jdbcType=VARCHAR},
+			</if>
+			<if test="settingDate != null">
+				setting_date = #{settingDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="beginTime != null">
+				begin_time = #{beginTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="endTime != null">
+				end_time = #{endTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="galleryful != null">
+				galleryful = #{galleryful,jdbcType=INTEGER},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createBy != null">
+				create_by = #{createBy,jdbcType=VARCHAR},
+			</if>
+			<if test="updateBy != null">
+				update_by = #{updateBy,jdbcType=VARCHAR},
+			</if>
+			<if test="isDeleted != null">
+				is_deleted = #{isDeleted,jdbcType=TINYINT},
+			</if>
+		</set>
+		where space_date_id = #{spaceDateId,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.iot.domain.SpaceDate">
+		update lds_space_date
+		set space_id = #{spaceId,jdbcType=VARCHAR},
+		tenant_id = #{tenantId,jdbcType=VARCHAR},
+		setting_date = #{settingDate,jdbcType=TIMESTAMP},
+		begin_time = #{beginTime,jdbcType=TIMESTAMP},
+		end_time = #{endTime,jdbcType=TIMESTAMP},
+		galleryful = #{galleryful,jdbcType=INTEGER},
+		create_time = #{createTime,jdbcType=TIMESTAMP},
+		update_time = #{updateTime,jdbcType=TIMESTAMP},
+		create_by = #{createBy,jdbcType=VARCHAR},
+		update_by = #{updateBy,jdbcType=VARCHAR},
+		is_deleted = #{isDeleted,jdbcType=TINYINT}
+		where space_date_id = #{spaceDateId,jdbcType=VARCHAR}
+	</update>
+</mapper>

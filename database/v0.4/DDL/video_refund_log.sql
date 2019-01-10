@@ -1,0 +1,2 @@
+ALTER TABLE `iot_db_boss`.`video_refund_log` MODIFY COLUMN `operator_id`  bigint(20) NOT NULL COMMENT '操作者id（-1：表示paypal操作）' AFTER `refund_id`;
+ALTER TABLE `iot_db_boss`.`video_refund_log` MODIFY COLUMN `refund_status`  tinyint(2) NULL DEFAULT NULL COMMENT '退款状态(0-取消,1-申请退款中，2-退款成功,3-退款失败,4：审核通过，5：审核不通过)' AFTER `refund_remark`;

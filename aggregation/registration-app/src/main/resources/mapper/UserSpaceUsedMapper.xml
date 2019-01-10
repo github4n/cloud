@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.iot.mapper.UserSpaceUsedMapper">
+	<resultMap id="BaseResultMap" type="com.iot.domain.UserSpaceUsed">
+		<id column="user_used_id" property="userUsedId" jdbcType="VARCHAR" />
+		<result column="user_id" property="userId" jdbcType="VARCHAR" />
+		<result column="space_date_id" property="spaceDateId" jdbcType="VARCHAR" />
+		<result column="tenant_id" property="tenantId" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="create_by" property="createBy" jdbcType="VARCHAR" />
+		<result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+		<result column="is_deleted" property="isDeleted" jdbcType="TINYINT" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		user_used_id, user_id, space_date_id, tenant_id, create_time, update_time,
+		create_by,
+		update_by, is_deleted
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from lds_user_space_used
+		where user_used_id = #{userUsedId,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from lds_user_space_used
+		where user_used_id = #{userUsedId,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="com.iot.domain.UserSpaceUsed">
+		insert into lds_user_space_used (user_used_id, user_id, space_date_id,
+		tenant_id, create_time, update_time,
+		create_by, update_by, is_deleted
+		)
+		values (#{userUsedId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR},
+		#{spaceDateId,jdbcType=VARCHAR},
+		#{tenantId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},
+		#{createBy,jdbcType=VARCHAR}, #{updateBy,jdbcType=VARCHAR},
+		#{isDeleted,jdbcType=TINYINT}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.iot.domain.UserSpaceUsed">
+		insert into lds_user_space_used
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="userUsedId != null">
+				user_used_id,
+			</if>
+			<if test="userId != null">
+				user_id,
+			</if>
+			<if test="spaceDateId != null">
+				space_date_id,
+			</if>
+			<if test="tenantId != null">
+				tenant_id,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="updateTime != null">
+				update_time,
+			</if>
+			<if test="createBy != null">
+				create_by,
+			</if>
+			<if test="updateBy != null">
+				update_by,
+			</if>
+			<if test="isDeleted != null">
+				is_deleted,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="userUsedId != null">
+				#{userUsedId,jdbcType=VARCHAR},
+			</if>
+			<if test="userId != null">
+				#{userId,jdbcType=VARCHAR},
+			</if>
+			<if test="spaceDateId != null">
+				#{spaceDateId,jdbcType=VARCHAR},
+			</if>
+			<if test="tenantId != null">
+				#{tenantId,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createBy != null">
+				#{createBy,jdbcType=VARCHAR},
+			</if>
+			<if test="updateBy != null">
+				#{updateBy,jdbcType=VARCHAR},
+			</if>
+			<if test="isDeleted != null">
+				#{isDeleted,jdbcType=TINYINT},
+			</if>
+		</trim>
+	</insert>
+
+	<insert id="saveUserUsed" parameterType="Map">
+		insert into
+		lds_user_space_used (user_used_id, user_id,
+		space_date_id,
+		tenant_id,
+		create_time)
+		values (#{userUsedId,jdbcType=VARCHAR},
+		#{userId,jdbcType=VARCHAR},
+		#{spaceDateId,jdbcType=VARCHAR},
+		#{tenantId,jdbcType=VARCHAR}, now())
+	</insert>
+
+	<update id="updateByPrimaryKeySelective" parameterType="com.iot.domain.UserSpaceUsed">
+		update lds_user_space_used
+		<set>
+			<if test="userId != null">
+				user_id = #{userId,jdbcType=VARCHAR},
+			</if>
+			<if test="spaceDateId != null">
+				space_date_id = #{spaceDateId,jdbcType=VARCHAR},
+			</if>
+			<if test="tenantId != null">
+				tenant_id = #{tenantId,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createBy != null">
+				create_by = #{createBy,jdbcType=VARCHAR},
+			</if>
+			<if test="updateBy != null">
+				update_by = #{updateBy,jdbcType=VARCHAR},
+			</if>
+			<if test="isDeleted != null">
+				is_deleted = #{isDeleted,jdbcType=TINYINT},
+			</if>
+		</set>
+		where user_used_id = #{userUsedId,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.iot.domain.UserSpaceUsed">
+		update lds_user_space_used
+		set user_id = #{userId,jdbcType=VARCHAR},
+		space_date_id = #{spaceDateId,jdbcType=VARCHAR},
+		tenant_id = #{tenantId,jdbcType=VARCHAR},
+		create_time = #{createTime,jdbcType=TIMESTAMP},
+		update_time = #{updateTime,jdbcType=TIMESTAMP},
+		create_by = #{createBy,jdbcType=VARCHAR},
+		update_by = #{updateBy,jdbcType=VARCHAR},
+		is_deleted = #{isDeleted,jdbcType=TINYINT}
+		where user_used_id = #{userUsedId,jdbcType=VARCHAR}
+	</update>
+</mapper>

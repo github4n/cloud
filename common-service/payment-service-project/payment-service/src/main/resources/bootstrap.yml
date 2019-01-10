@@ -1,0 +1,42 @@
+spring:
+  profiles:
+    active: dev
+  cloud:
+    config:
+      #uri: http://192.168.6.118:${config.port:8888}
+      #uri: http://localhost:${config.port:8888}
+      discovery:
+        enabled: true                  #是否通过eureka发现config-service
+        service-id: config-service     #config-service在eureka中的名称
+      name: payment-service
+      profile: ${spring.profiles.active}
+  #service name
+  application:
+    name: payment-service
+  #国际化资源位置
+  messages:
+    basename: i18n/messages,i18n/ValidationMessages
+    cache-seconds: 3600
+    encoding: UTF-8
+
+eureka:
+  client:
+    registryFetchIntervalSeconds: 5
+    serviceUrl:
+      defaultZone: http://admin:a!23456@192.168.5.20:8761/eureka/
+  instance:
+    instanceId: ${spring.cloud.client.ipAddress}:${server.port}:${spring.application.name}:${spring.application.instance_id:${random.value}}
+    prefer-ip-address: true
+    metadata-map:
+      cluster: MAIN
+      user:
+        name: admin
+        password: a!23456
+
+
+mybatis:
+  #mapperLocations: classpath:mybatis/*.xml
+  #typeAliasesPackage: com.lds.iot.demo.entity
+  configLocation: classpath:mybatis-config.xml
+
+

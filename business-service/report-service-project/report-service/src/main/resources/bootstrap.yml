@@ -1,0 +1,37 @@
+spring:
+  profiles:
+    active: dev
+  cloud:
+    config:
+      #uri: http://192.168.6.118:${config.port:8888}
+      uri: http://192.168.5.20:8888
+      discovery:
+        enabled: true                  #是否通过eureka发现config-service
+        service-id: config-service     #config-service在eureka中的名称
+      name: report-service
+      profile: ${spring.profiles.active}
+  #service name
+  application:
+    name: report-service
+
+mybatis:
+  #mapperLocations: classpath:mybatis/*.xml
+  #typeAliasesPackage: com.lds.iot.message.entity
+  configLocation: classpath:mybatis-config.xml
+
+
+eureka:
+  client:
+    registryFetchIntervalSeconds: 5
+    serviceUrl:
+      defaultZone: http://admin:a!23456@192.168.5.20:8761/eureka/
+      #defaultZone: http://admin:a!23456@192.168.5.37:8761/eureka/
+  instance:
+    instanceId: ${spring.cloud.client.ipAddress}:${server.port}:${spring.application.name}:${spring.application.instance_id:${random.value}}
+    prefer-ip-address: true
+    metadata-map:
+      cluster: MAIN
+      user:
+        name: admin
+        password: a!23456
+

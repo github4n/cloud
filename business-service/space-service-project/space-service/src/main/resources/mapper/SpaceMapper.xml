@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lds.iot.space.mapper.SpaceMapper">
+	<resultMap id="BaseResultMap" type="com.lds.iot.space.domain.Space">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="BIGINT" />
+		<result column="last_update_date" property="lastUpdateDate"
+			jdbcType="BIGINT" />
+		<result column="icon" property="icon" jdbcType="VARCHAR" />
+		<result column="position" property="position" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="parent_id" property="parentId" jdbcType="VARCHAR" />
+		<result column="user_id" property="userId" jdbcType="VARCHAR" />
+		<result column="location_id" property="locationId" jdbcType="VARCHAR" />
+		<result column="create_by" property="createBy" jdbcType="VARCHAR" />
+		<result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+		<result column="type" property="type" jdbcType="CHAR" />
+		<result column="sort" property="sort" jdbcType="INTEGER" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, create_time, last_update_date, icon, position, name,
+		parent_id,
+		user_id, location_id,
+		create_by, update_by, type ,sort
+	</sql>
+
+	<select id="findById" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from space
+		where id = #{id,jdbcType=VARCHAR}
+	</select>
+	<select id="findByIdAuthUserId" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from space
+		where id = #{spaceId,jdbcType=VARCHAR} and user_id = #{userId}
+	</select>
+
+	<select id="findSpaceByUser" resultMap="BaseResultMap"
+		parameterType="Map">
+		select
+		<include refid="Base_Column_List" />
+		from space
+		where location_id = #{locationId,jdbcType=VARCHAR}
+		<if test="name != null and name !=''">
+			and name like CONCAT(CONCAT('%', #{name}), '%')
+		</if>
+		order by sort desc
+	</select>
+
+	<select id="getSpaceByBuildAndType" resultMap="BaseResultMap"
+		parameterType="Map">
+		select
+		<include refid="Base_Column_List" />
+		from space
+		where parent_id = #{buildId,jdbcType=VARCHAR} and
+		type=#{type,jdbcType=VARCHAR}
+		ORDER BY sort DESC
+	</select>
+
+	<select id="findRootByUser" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from space
+		where location_id = #{locationId,jdbcType=VARCHAR} and
+		(parent_id is null or
+		parent_id='')
+	</select>
+
+	<select id="findByParent" resultType="Map" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from space
+		where parent_id = #{parentId,jdbcType=VARCHAR}
+		ORDER BY sort
+	</select>
+
+	<select id="findGroupIdByRoom" resultType="Map" parameterType="java.lang.String">
+		select id
+		from space where parent_id=#{roomId} and type='GROUP'
+	</select>
+
+	<select id="findDeviceByGroup" resultType="Map" parameterType="Map">
+		select d.id ,d.switch,d.type,d.realItyId,d.name,d.parent_id as
+		parentId,d.device_category_id as deviceCategoryId,
+		d.extraName,dc.type
+		as businessType
+		from
+		space_device sd LEFT JOIN device d on sd.device_id
+		= d.id LEFT JOIN
+		device_category dc on d.device_category_id=dc.id
+		where
+		d.is_direct_device=0 and
+		<if test="type != null">
+			type = #{type} and
+		</if>
+		space_id in
+		<foreach collection="groupIds" item="groupId" index="index"
+			open="(" separator="," close=")">
+			#{groupId}
+		</foreach>
+		<if test="deviceCategoryTypes != null">
+			and dc.type in
+			<foreach collection="deviceCategoryTypes" item="deviceCategoryType"
+				index="index" open="(" separator="," close=")">
+				#{deviceCategoryType}
+			</foreach>
+		</if>
+	</select>
+
+	<select id="findDeviceByGroupAndType" resultType="Map"
+		parameterType="Map">
+		select d.id ,d.switch,d.type,d.realItyId,d.name,d.parent_id as
+		parentId,d.device_category_id as deviceCategoryId,
+		d.extraName
+		from
+		space_device sd , device d, device_category dc where sd.device_id=d.id
+		and
+		d.device_category_id=dc.id and
+		<if test="types != null">
+			dc.type in
+			<foreach collection="types" item="item" index="index" open="("
+				separator="," close=")">
+				#{item}
+			</foreach>
+			and
+		</if>
+		sd.space_id in
+		<foreach collection="groupIds" item="item" index="index" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+
+	<select id="findSpaceByParent" resultMap="BaseResultMap"
+		parameterType="Map">
+		select
+		<include refid="Base_Column_List" />
+		from space
+		where parent_id = #{parentId,jdbcType=VARCHAR}
+		<if test="type != null">
+			and type = #{type}
+		</if>
+		<if test="name != null">
+			and name like "%${name}%"
+		</if>
+	</select>
+
+	<select id="findByLocation" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from space
+		where location_id = #{LocationId,jdbcType=VARCHAR}
+	</select>
+
+	<delete id="delete" parameterType="java.lang.String">
+		delete from space
+		where id =
+		#{id,jdbcType=VARCHAR}
+	</delete>
+	<delete id="deleteAll" parameterType="java.lang.String">
+		delete from space
+		where id =
+		#{spaceId,jdbcType=VARCHAR} and user_id = #{userId}
+	</delete>
+	<insert id="save" parameterType="com.lds.iot.space.domain.Space">
+		insert into space (id,
+		create_time, last_update_date,
+		icon, position, name,
+		parent_id, user_id,
+		location_id,
+		create_by, update_by, type
+		)
+		values (#{id,jdbcType=VARCHAR},
+		unix_timestamp(now()),
+		unix_timestamp(now()),
+		#{icon,jdbcType=VARCHAR},
+		#{position,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
+		#{parentId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR},
+		#{locationId,jdbcType=VARCHAR},
+		#{createBy,jdbcType=VARCHAR},
+		#{updateBy,jdbcType=VARCHAR}, #{type}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.lds.iot.space.domain.Space">
+		insert into space
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="lastUpdateDate != null">
+				last_update_date,
+			</if>
+			<if test="icon != null">
+				icon,
+			</if>
+			<if test="position != null">
+				position,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="parentId != null">
+				parent_id,
+			</if>
+			<if test="userId != null">
+				user_id,
+			</if>
+			<if test="locationId != null">
+				location_id,
+			</if>
+			<if test="createBy != null">
+				create_by,
+			</if>
+			<if test="updateBy != null">
+				update_by,
+			</if>
+			<if test="type != null">
+				type,
+			</if>
+			<if test="sort != null">
+				sort,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=BIGINT},
+			</if>
+			<if test="lastUpdateDate != null">
+				#{lastUpdateDate,jdbcType=BIGINT},
+			</if>
+			<if test="icon != null">
+				#{icon,jdbcType=VARCHAR},
+			</if>
+			<if test="position != null">
+				#{position,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="parentId != null">
+				#{parentId,jdbcType=VARCHAR},
+			</if>
+			<if test="userId != null">
+				#{userId,jdbcType=VARCHAR},
+			</if>
+			<if test="locationId != null">
+				#{locationId,jdbcType=VARCHAR},
+			</if>
+			<if test="createBy != null">
+				#{createBy,jdbcType=VARCHAR},
+			</if>
+			<if test="updateBy != null">
+				#{updateBy,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=CHAR},
+			</if>
+			<if test="sort != null">
+				#{sort},
+			</if>
+		</trim>
+	</insert>
+	<update id="update" parameterType="com.lds.iot.space.domain.Space">
+		update space
+		<set>
+			<if test="lastUpdateDate != null">
+				last_update_date = unix_timestamp(now()),
+			</if>
+			<if test="icon != null">
+				icon = #{icon,jdbcType=VARCHAR},
+			</if>
+			<if test="position != null">
+				position = #{position,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="parentId != null">
+				parent_id = #{parentId,jdbcType=VARCHAR},
+			</if>
+			<if test="userId != null">
+				user_id = #{userId,jdbcType=VARCHAR},
+			</if>
+			<if test="locationId != null">
+				location_id = #{locationId,jdbcType=VARCHAR},
+			</if>
+			<if test="updateBy != null">
+				update_by = #{updateBy,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				type = #{type,jdbcType=CHAR},
+			</if>
+			<if test="sort != null">
+				sort = #{sort},
+			</if>
+		</set>
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.lds.iot.space.domain.Space">
+		update space
+		set
+		create_time = #{createTime,jdbcType=BIGINT},
+		last_update_date =
+		#{lastUpdateDate,jdbcType=BIGINT},
+		icon = #{icon,jdbcType=VARCHAR},
+		position = #{position,jdbcType=VARCHAR},
+		name =
+		#{name,jdbcType=VARCHAR},
+		parent_id = #{parentId,jdbcType=VARCHAR},
+		user_id = #{userId,jdbcType=VARCHAR},
+		location_id =
+		#{locationId,jdbcType=VARCHAR},
+		create_by =
+		#{createBy,jdbcType=VARCHAR},
+		update_by = #{updateBy,jdbcType=VARCHAR},
+		type = #{type,jdbcType=CHAR}
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<update id="setSpaceRelation" parameterType="Map">
+		update space set parent_id=#{parentId}
+		where id in
+		<foreach collection="ids" item="item" index="index" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+	<update id="updateParentIdNull" parameterType="java.lang.String">
+		update space set
+		parent_id = null
+		where parent_id = #{sapceId}
+	</update>
+
+	<select id="findSpaceNameByDevice" resultType="Map"
+		parameterType="java.lang.String">
+		SELECT
+		s.name as name , s.parent_id,sd.space_id as spaceId
+		FROM space_device sd LEFT JOIN space s on sd.space_id=s.id
+		WHERE sd.device_id = #{deviceId,jdbcType=VARCHAR}
+	</select>
+
+
+	<select id="findSpaceNameById" resultType="com.lds.iot.space.domain.Space"
+		parameterType="java.lang.String">
+		SELECT name,parent_id as parentId from space where id=#{id,jdbcType=VARCHAR}
+	</select>
+
+	<select id="countSpaceDeviceMount" resultType="int" parameterType="java.lang.String" >
+    	SELECT count(*) from space_device where space_id=#{spaceId,jdbcType=VARCHAR} 
+    </select>     
+	
+</mapper>

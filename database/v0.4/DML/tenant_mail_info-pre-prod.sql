@@ -1,0 +1,1 @@
+replace INTO `iot_db_message`.`tenant_mail_info` (`id`, `tenant_id`, `mail_host`, `mail_name`, `pass_word`, `create_time`, `update_time`, `data_status`) VALUES ('1', '0', 'smtp.gmail.com', 'leedarson2018@gmail.com', 'aoxnoqzsduvbzqfa', '2018-07-24 09:45:25', NULL, '');

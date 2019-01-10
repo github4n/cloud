@@ -1,0 +1,32 @@
+##编码问题 读取配置文件编码问题
+banner:
+ charset: UTF-8
+
+server:
+  port: 18090
+  tomcat:
+    uri-encoding: UTF-8
+  http:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+  messages:
+    encoding: UTF-8
+
+spring:
+  #国际化资源位置
+  messages:
+    basename: i18n/messages,i18n/ValidationMessages
+    cache-seconds: 3600
+    encoding: UTF-8
+  profiles:
+    active: dev  #目前处于什么开发环境
+  #service name
+  application:
+    name: registration-app
+  cloud:
+    config:
+      uri: http://192.168.6.118:8888
+      name: ${spring.application.name}
+      profile: ${spring.profiles.active}

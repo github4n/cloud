@@ -1,0 +1,1 @@
+alter table `iot_db_system`.`lang_info`  modify column lang_value varchar(1000);

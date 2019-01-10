@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lds.iot.scene.mapper.SceneMapper">
+
+	<!-- 公共字段 -->
+	<sql id="common_field">
+		id,
+		create_by,
+		update_by,
+		create_time,
+		last_update_date
+	</sql>
+
+	<!-- 保存模板 -->
+	<insert id="saveTemplate" parameterType="com.lds.iot.scene.domain.Template">
+		insert into template(
+		name,
+		<include refid="common_field" />
+		) values(
+		#{template.name,jdbcType=VARCHAR},
+		#{template.id,jdbcType=VARCHAR},
+		#{template.createBy,jdbcType=VARCHAR},
+		#{template.updateBy,jdbcType=VARCHAR},
+		#{template.createTime,jdbcType=BIGINT},
+		#{template.lastUpdateDate,jdbcType=BIGINT}
+		)
+	</insert>
+
+	<!-- 保存模板详情 -->
+	<insert id="saveTemplateDetail" parameterType="com.lds.iot.scene.domain.TemplateDetail">
+		insert into template_detail(
+		template_id,
+		device_category_id,
+		target_value,
+		<include refid="common_field" />
+		) values(
+		#{templateDetail.templateId,jdbcType=VARCHAR},
+		#{templateDetail.deviceCategoryId,jdbcType=VARCHAR},
+		#{templateDetail.targetValue,jdbcType=VARCHAR},
+		#{templateDetail.id,jdbcType=VARCHAR},
+		#{templateDetail.createBy,jdbcType=VARCHAR},
+		#{templateDetail.updateBy,jdbcType=VARCHAR},
+		#{templateDetail.createTime,jdbcType=BIGINT},
+		#{templateDetail.lastUpdateDate,jdbcType=BIGINT}
+		)
+	</insert>
+
+	<!-- 查询情景where语句 -->
+	<sql id="sceneTemplateList_where">
+		<where>
+			<if test="name != null">
+				t2.name like CONCAT(CONCAT('%',#{name}),'%')
+			</if>
+		</where>
+	</sql>
+
+	<!-- 查询情景模板 -->
+	<select id="getSceneTemplateList" resultType="com.lds.iot.scene.vo.SceneTemplateVO">
+		select
+		DISTINCT t1.template_id as templateId,
+		t2.`name` as name,
+		t1.create_by as createBy,
+		from_unixtime(t1.create_time/1000,'%Y-%m-%d %H:%i:%S')
+		as createTime,
+		t2.create_time as tt
+		from template_detail t1
+		join template t2 on t1.template_id = t2.id
+		<include refid="sceneTemplateList_where" />
+		order by tt
+	</select>
+
+	<!-- 查询产品类型目标值 -->
+	<select id="getDeviceTarValueList" resultType="com.lds.iot.scene.domain.DeviceTarValue">
+		SELECT
+		t.device_category_id AS deviceCategoryId,
+		t2.`name` as deviceCategory,
+		t.target_value AS targetValue
+		FROM
+		template_detail t
+		JOIN lds_iot_db_device.device_category t2 ON t.device_category_id = t2.id
+		WHERE
+		t.template_id = #{templateId,jdbcType=VARCHAR}
+	</select>
+
+	<!-- 查询模板 -->
+	<select id="getTemplate" resultType="com.lds.iot.scene.vo.SceneTemplateTO">
+		SELECT
+		t.id AS templateId,
+		t.`name` AS name
+		FROM
+		template t
+		where t.id = #{templateId,jdbcType=VARCHAR}
+	</select>
+
+	<!-- 查询模板详情 -->
+	<select id="getTemplateDetailList" resultType="com.lds.iot.scene.vo.DeviceTarValueTO">
+		SELECT
+		t.id AS templateDetailId,
+		t.device_category_id AS deviceCategoryId,
+		t2.type AS deviceCategory,
+		t.target_value AS targetValue
+		FROM
+		template_detail t
+		JOIN lds_iot_db_device.device_category t2 ON t.device_category_id = t2.id
+		where
+		t.template_id = #{templateId,jdbcType=VARCHAR}
+	</select>
+
+	<!-- 更新模板 -->
+	<select id="updateTemplate" parameterType="com.lds.iot.scene.domain.Template">
+		update template
+		set name = #{template.name,jdbcType=VARCHAR},
+		update_by = #{template.updateBy,jdbcType=VARCHAR},
+		last_update_date = #{template.lastUpdateDate,jdbcType=VARCHAR}
+		where id = #{template.id,jdbcType=VARCHAR}
+	</select>
+
+	<!-- 更新模板详情 -->
+	<select id="updateTemplateDetail" parameterType="com.lds.iot.scene.domain.TemplateDetail">
+		update template_detail
+		set device_category_id =
+		#{templateDetail.deviceCategoryId,jdbcType=VARCHAR},
+		target_value = #{templateDetail.targetValue,jdbcType=VARCHAR},
+		update_by = #{templateDetail.updateBy,jdbcType=VARCHAR},
+		last_update_date = #{templateDetail.lastUpdateDate,jdbcType=VARCHAR}
+		where id = #{templateDetail.id,jdbcType=VARCHAR}
+		and template_id = #{templateDetail.templateId,jdbcType=VARCHAR}
+	</select>
+
+	<!-- 查询房间中是否绑定模板 -->
+	<select id="getRoomByTemplateId" resultType="string">
+		SELECT
+		t3.`name`
+		FROM
+		template_detail t1
+		JOIN scene_template t2 ON t1.template_id = t2.template_id
+		JOIN lds_iot_db_space.space
+		t3 ON t2.space_id = t3.id
+		where t1.template_id =
+		#{templateId,jdbcType=VARCHAR}
+	</select>
+
+	<!-- 删除模板 -->
+	<delete id="delTemplate" parameterType="string">
+		delete from template where id = #{templateId,jdbcType=VARCHAR}
+	</delete>
+
+	<!-- 删除模板详情 -->
+	<delete id="delTemplateDetail" parameterType="string">
+		delete from template_detail where template_id =
+		#{templateId,jdbcType=VARCHAR}
+	</delete>
+
+	<!-- 查询模板 -->
+	<select id="getTemplateList" resultType="com.lds.iot.scene.vo.TemplateVO">
+		SELECT
+		t.id AS id,
+		t.`name` AS NAME
+		FROM
+		template t
+		<if test="name != null">
+			where t.`name` like CONCAT(CONCAT('%',#{name}),'%')
+		</if>
+	</select>
+
+	<!-- 删除房间情景 -->
+	<delete id="delRoomTemplate" parameterType="string">
+		delete from scene_template where space_id = #{spaceId,jdbcType=VARCHAR}
+	</delete>
+
+	<!-- 保存房间情景 -->
+	<insert id="saveRoomTemplate" parameterType="com.lds.iot.scene.domain.RoomTemplate">
+		insert into scene_template(
+		template_id,
+		space_id,
+		<include refid="common_field" />
+		) values (
+		#{roomTemplate.templateId,jdbcType=VARCHAR},
+		#{roomTemplate.spaceId,jdbcType=VARCHAR},
+		#{roomTemplate.id,jdbcType=VARCHAR},
+		#{roomTemplate.createBy,jdbcType=VARCHAR},
+		#{roomTemplate.updateBy,jdbcType=VARCHAR},
+		#{roomTemplate.createTime,jdbcType=BIGINT},
+		#{roomTemplate.lastUpdateDate,jdbcType=BIGINT}
+		)
+	</insert>
+
+	<!-- 查询房间下的情景 -->
+	<select id="getTemplateBySpaceId" resultType="com.lds.iot.scene.vo.TemplateVO">
+		SELECT
+		t2.id AS id,
+		t2.`name` AS NAME
+		FROM
+		scene_template t1
+		JOIN template t2 ON t1.template_id = t2.id
+		where t1.space_id =
+		#{spaceId,jdbcType=VARCHAR}
+	</select>
+
+	<!-- 查询设备名-目标值 -->
+	<select id="getDeviceTarValueVOList" resultType="com.lds.iot.scene.vo.DeviceTarValueVO">
+		SELECT
+		DISTINCT t1.template_id,
+		t3.id AS deviceId,
+		t3.`name` AS deviceName,
+		t4.target_value AS targetValue
+		FROM
+		scene_template t1
+		JOIN lds_iot_db_space.space_device t2 ON t1.space_id = t2.space_id
+		JOIN lds_iot_db_device.device t3 ON
+		t2.device_id = t3.id
+		JOIN template_detail t4 ON t1.template_id =
+		t4.template_id and t4.device_category_id = t3.device_category_id
+		where t1.template_id = #{templateId,jdbcType=VARCHAR}
+		and t1.space_id = #{spaceId,jdbcType=VARCHAR}
+	</select>
+
+	<!-- 保存情景微调 -->
+	<insert id="saveSceneDetail" parameterType="com.lds.iot.scene.domain.SceneDetail">
+		insert into scene_detail(
+		device_id,
+		target_value,
+		space_id,
+		<include refid="common_field" />
+		) values (
+		#{sceneDetail.deviceId,jdbcType=VARCHAR},
+		#{sceneDetail.targetValue,jdbcType=VARCHAR},
+		#{sceneDetail.spaceId,jdbcType=VARCHAR},
+		#{sceneDetail.id,jdbcType=VARCHAR},
+		#{sceneDetail.createBy,jdbcType=VARCHAR},
+		#{sceneDetail.updateBy,jdbcType=VARCHAR},
+		#{sceneDetail.createTime,jdbcType=BIGINT},
+		#{sceneDetail.lastUpdateDate,jdbcType=BIGINT}
+		)
+	</insert>
+
+	<!-- 查询模板名个数 -->
+	<select id="getTemplateNameCount" resultType="int">
+		select count(1) from template where name = #{name,jdbcType=VARCHAR}
+	</select>
+
+	<!-- 修改设备名 -->
+	<!-- <update id="updateDeviceName"> update device set name = #{deviceName,jdbcType=VARCHAR} 
+		where id = #{deviceId,jdbcType=VARCHAR} </update> -->
+
+	<!-- 查询不同设备情景执行 -->
+	<select id="getDiffDeviceCategorySceneExecList" resultType="com.lds.iot.scene.domain.SceneExec">
+		SELECT
+		t2.target_value AS targetValue,
+		t4.id AS deviceId,
+		t4.`name` AS deviceName,
+		t4.realityId AS realityId,
+		t4.parent_id AS gatewayId,
+		t3.device_category_id as deviceCategoryId,
+		t4.extraName as extraName
+		FROM
+		scene_template t1
+		JOIN template_detail t2 ON t1.template_id = t2.template_id
+		JOIN
+		lds_iot_db_space.space_device t3 ON t1.space_id = t3.space_id
+		AND t2.device_category_id
+		= t3.device_category_id
+		JOIN lds_iot_db_device.device t4 ON t3.device_id = t4.id
+		WHERE
+		t1.space_id = #{spaceId,jdbcType=VARCHAR}
+		and t1.template_id = #{templateId,jdbcType=VARCHAR}
+	</select>
+
+	<!-- 查询微调设备情景执行 -->
+	<select id="getSpecDeviceSceneExecList" resultType="com.lds.iot.scene.domain.SceneExec">
+		SELECT
+		DISTINCT
+		t1.device_id AS deviceId,
+		t1.target_value AS targetValue,
+		t2.`name` AS deviceName,
+		t2.realityId AS realityId,
+		t2.parent_id AS gatewayId,
+		t2.device_category_id as deviceCategoryId,
+		t2.extraName as extraName
+		FROM
+		scene_detail t1
+		JOIN lds_iot_db_device.device t2 ON t1.device_id = t2.id
+		where t1.space_id =
+		#{spaceId,jdbcType=VARCHAR}
+	</select>
+
+	<!-- 查询变化的房间情景 -->
+	<select id="getRoomScene" resultType="com.lds.iot.scene.vo.RoomSceneTO">
+		SELECT
+		DISTINCT
+		t2.space_id AS spaceId,
+		t3.template_id AS templateId,
+		t4.target_value AS targetValue
+		FROM
+		lds_iot_db_device.device t1
+		JOIN lds_iot_db_space.space_device t2 ON t1.id = t2.device_id
+		JOIN scene_template t3
+		ON t3.space_id = t2.space_id
+		JOIN template_detail t4 ON t4.template_id
+		= t3.template_id
+		where t1.realityId = #{realityId,jdbcType=VARCHAR}
+	</select>
+
+	<!-- 查询房间 -->
+	<select id="getRoomSceneBySceneId" resultType="com.lds.iot.scene.domain.RoomScene">
+		SELECT
+		t1.space_id AS spaceId,
+		t2.`name` AS templateName
+		FROM
+		scene_template t1
+		JOIN template t2 ON t1.template_id = t2.id
+		WHERE
+		t1.template_id = #{templateId,jdbcType=VARCHAR}
+	</select>
+
+	<!-- 查询产品类型 -->
+	<select id="getDeviceCategoryList" resultType="com.lds.iot.device.vo.DeviceCategoryVO">
+		select id as id,
+		name as name,
+		type as type
+		from lds_iot_db_device.device_category
+	</select>
+
+	<!-- 查询模板情景 -->
+	<select id="getTemplateSceneList" resultType="com.lds.iot.scene.vo.SceneDetailVO">
+		SELECT
+		t4.id AS deviceId,
+		t4.`name` AS deviceName,
+		t2.target_value AS targetValue,
+		t5.type AS businessType
+		FROM
+		scene_template t1
+		JOIN template_detail t2 ON t1.template_id = t2.template_id
+		JOIN
+		lds_iot_db_space.space_device t3 ON t1.space_id = t3.space_id
+		JOIN lds_iot_db_device.device t4 ON
+		t3.device_id = t4.id
+		JOIN lds_iot_db_device.device_category t5 ON t4.device_category_id =
+		t5.id and t5.id = t2.device_category_id
+		where t1.space_id = #{spaceId,jdbcType=VARCHAR} and
+		t1.template_id = #{templateId,jdbcType=VARCHAR}
+	</select>
+
+	<!-- 查询情景微调 -->
+	<select id="getSceneDetailList" resultType="com.lds.iot.scene.vo.SceneDetailVO">
+		SELECT
+		t.device_id AS deviceId,
+		t.target_value AS targetValue
+		FROM
+		scene_detail t
+		where t.space_id = #{spaceId,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="getSceneSvg" resultType="com.lds.iot.scene.domain.SceneSvg">
+    	SELECT
+			id AS id,
+			space_id AS spaceId,
+			svg_url AS svgUrl
+		FROM
+			scene_svg
+		WHERE space_id = #{spaceId,jdbcType=VARCHAR}	
+    </select>
+    
+    <delete id="deleteSceneSvg" parameterType="string">
+    	delete from scene_svg where space_id = #{spaceId,jdbcType=VARCHAR}
+    </delete>
+    
+    <delete id="deleteSceneDetail" >
+		delete from scene_detail where space_id = #{spaceId,jdbcType=VARCHAR}
+		and device_id in
+		<foreach collection="deviceIds" item="deviceId" open="(" close=")" separator=",">
+			#{deviceId}
+		</foreach>
+    </delete>
+
+</mapper>

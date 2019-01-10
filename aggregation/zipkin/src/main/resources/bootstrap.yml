@@ -1,0 +1,55 @@
+server: 
+  port: 11030
+spring:
+  application: 
+    name: zipkin
+#  cloud:
+#    config:
+#      uri: http://192.168.6.118:8888
+##      uri: http://127.0.0.1:8888
+#      name: ${spring.application.name}
+#      profile: dev
+##      discovery:
+##        enabled: true
+#  rabbitmq:
+#    host: 172.24.185.17
+#    port: 5672
+#    username: admin
+#    password: admin123
+#  # zipkin数据保存到数据库中需要进行如下配置
+#  # 表示当前程序不使用sleuth
+#  sleuth:
+#    enabled: false
+
+#表示zipkin数据存储方式是elasticsearch
+#zipkin:
+#  storage:
+#    StorageComponent: elasticsearch
+#    type: elasticsearch
+#    elasticsearch:
+#      cluster: elasticsearch-zipkin-cluster
+#      hosts: 192.168.6.115:9200
+#      #pipeline:
+#      max-requests: 64
+#      index: zipkin_dev
+#      index-shards: 5
+#      index-replicas: 1
+
+eureka: 
+  client:
+    serviceUrl:
+      defaultZone: http://admin:a!23456@192.168.6.118:8761/eureka/
+      #defaultZone: http://127.0.0.1:8761/eureka/
+  instance:
+    instanceId: ${spring.cloud.client.ipAddress}:${server.port}:${spring.application.name}:${spring.application.instance_id:${random.value}}
+    leaseExpirationDurationInSeconds: 2
+    leaseRenewalIntervalInSeconds: 1
+    prefer-ip-address: true
+    metadata-map:
+      cluster: MAIN
+      user.name: admin
+      user.password: a!23456
+
+management:
+  security:
+    enabled: false

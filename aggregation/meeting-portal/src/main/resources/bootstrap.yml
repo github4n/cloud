@@ -1,0 +1,33 @@
+server:
+  port: 8050
+   
+spring:
+  application:
+    name: meeting-portal
+  autoconfigure.exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration, org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration
+    
+    
+  redis:
+    password: 
+    database: 0
+    port: 6379
+    pool:
+      max-idle: 8
+      min-idle: 5
+      max-active: 8
+      max-wait: -1
+    host: 47.105.42.148
+    timeout: 5000
+
+mqtt:
+  clientId: server-${random.value}
+  username: leedarson
+  password: administr
+  qos: 1
+  host: 47.105.42.148
+  port: 1883
+  clientBroadcast: "iot/v1/cb/#"
+  type: DEFINED
+
+
+

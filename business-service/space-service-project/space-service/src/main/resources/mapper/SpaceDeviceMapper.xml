@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lds.iot.space.mapper.SpaceDeviceMapper">
+	<resultMap id="BaseResultMap" type="com.lds.iot.space.domain.SpaceDevice">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="BIGINT" />
+		<result column="last_update_date" property="lastUpdateDate"
+			jdbcType="BIGINT" />
+		<result column="device_id" property="deviceId" jdbcType="VARCHAR" />
+		<result column="space_id" property="spaceId" jdbcType="VARCHAR" />
+		<result column="location_id" property="locationId" jdbcType="VARCHAR" />
+		<result column="device_category_id" property="deviceCategoryId"
+			jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, create_time, last_update_date, device_id, space_id,
+		location_id,
+		device_category_id
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from space_device
+		where id = #{id,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		space_device
+		where id = #{id,jdbcType=VARCHAR}
+	</delete>
+
+	<delete id="delete" parameterType="java.lang.String">
+		delete from
+		space_device
+		where
+		id = #{id,jdbcType=VARCHAR} and user_id = #{userId}
+	</delete>
+
+	<delete id="deleteBySpace" parameterType="java.lang.String">
+		delete from
+		space_device
+		where space_id = #{spaceId,jdbcType=VARCHAR}
+	</delete>
+
+	<select id="countByGroupIds" resultType="int">
+		SELECT count(DISTINCT(d.id))
+		from space_device sd LEFT JOIN device d ON
+		sd.device_id=d.id LEFT JOIN
+		device_category dc on
+		d.device_category_id=dc.id
+		where dc.type in
+		<foreach collection="type" item="item" index="index" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+		and sd.space_id in
+		<foreach collection="groupIds" item="item" index="index" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+
+	<select id="countByDevice" resultType="int">
+		SELECT count(*)
+		from
+		space_device
+		where device_id=#{deviceId,jdbcType=VARCHAR} and space_id
+		is not null
+	</select>
+
+	<select id="countOnSwitchByGroupIds" resultType="int">
+		SELECT count(DISTINCT(d.id))
+		from space_device sd LEFT JOIN device d ON
+		sd.device_id=d.id LEFT JOIN
+		device_category dc on
+		d.device_category_id=dc.id
+		WHERE d.switch=1
+		<if test="type != null">
+			and dc.type in
+			<foreach collection="type" item="item" index="index" open="("
+				separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		AND sd.space_id in
+		<foreach collection="groupIds" item="item" index="index" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+
+	<select id="countLightOnSwitchByGroupIds" resultType="int">
+		SELECT count(d.id)
+		from space_device sd LEFT JOIN device d ON
+		sd.device_id=d.id LEFT JOIN
+		device_category dc on
+		d.device_category_id=dc.id
+		WHERE d.switch=1
+		AND dc.type in
+		<foreach item="item" index="index" collection="type" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+		AND sd.space_id in
+		<foreach item="item" index="index" collection="groupIds" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+
+	<insert id="insert" parameterType="com.lds.iot.space.domain.SpaceDevice">
+		insert into space_device (id,
+		create_time, last_update_date,
+		device_id, space_id, location_id,
+		device_category_id)
+		values (#{id,jdbcType=VARCHAR},
+		unix_timestamp(now()),
+		unix_timestamp(now()),
+		#{deviceId,jdbcType=VARCHAR}, #{spaceId,jdbcType=VARCHAR},
+		#{locationId,jdbcType=VARCHAR},
+		#{deviceCategoryId,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.lds.iot.space.domain.SpaceDevice">
+		insert into space_device
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="lastUpdateDate != null">
+				last_update_date,
+			</if>
+			<if test="deviceId != null">
+				device_id,
+			</if>
+			<if test="spaceId != null">
+				space_id,
+			</if>
+			<if test="locationId != null">
+				location_id,
+			</if>
+			<if test="deviceCategoryId != null">
+				device_category_id,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=BIGINT},
+			</if>
+			<if test="lastUpdateDate != null">
+				#{lastUpdateDate,jdbcType=BIGINT},
+			</if>
+			<if test="deviceId != null">
+				#{deviceId,jdbcType=VARCHAR},
+			</if>
+			<if test="spaceId != null">
+				#{spaceId,jdbcType=VARCHAR},
+			</if>
+			<if test="locationId != null">
+				#{locationId,jdbcType=VARCHAR},
+			</if>
+			<if test="deviceCategoryId != null">
+				#{deviceCategoryId,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.lds.iot.space.domain.SpaceDevice">
+		update space_device
+		<set>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=BIGINT},
+			</if>
+			<if test="lastUpdateDate != null">
+				last_update_date = #{lastUpdateDate,jdbcType=BIGINT},
+			</if>
+			<if test="deviceId != null">
+				device_id = #{deviceId,jdbcType=VARCHAR},
+			</if>
+			<if test="spaceId != null">
+				space_id = #{spaceId,jdbcType=VARCHAR},
+			</if>
+			<if test="locationId != null">
+				location_id = #{locationId,jdbcType=VARCHAR},
+			</if>
+			<if test="deviceCategoryId != null">
+				device_category_id =
+				#{deviceCategoryId,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+	<select id="findSpaceByType" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		SELECT * from space where id=#{spaceId,jdbcType=VARCHAR} and user_id =
+		#{userId}
+	</select>
+</mapper>

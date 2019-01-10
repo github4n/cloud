@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.iot.mapper.UserSpaceSubscribeMapper">
+	<resultMap id="BaseResultMap" type="com.iot.domain.UserSpaceSubscribe">
+		<id column="user_subscribe_id" property="userSubscribeId" jdbcType="VARCHAR" />
+		<result column="user_id" property="userId" jdbcType="VARCHAR" />
+		<result column="space_date_id" property="spaceDateId" jdbcType="VARCHAR" />
+		<result column="tenant_id" property="tenantId" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="create_by" property="createBy" jdbcType="VARCHAR" />
+		<result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+		<result column="is_deleted" property="isDeleted" jdbcType="TINYINT" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		user_subscribe_id, user_id, space_date_id, tenant_id,
+		create_time, update_time,
+		create_by,
+		update_by, is_deleted
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from lds_user_space_subscribe
+		where user_subscribe_id =
+		#{userSubscribeId,jdbcType=VARCHAR}
+	</select>
+
+	<select id="countBySpaceDateId" resultType="int" parameterType="String">
+		select count(*)
+		from lds_user_space_subscribe
+		where space_date_id = #{spaceDateId,jdbcType=VARCHAR}
+	</select>
+
+	<select id="findSpaceDateByUserId" resultType="com.iot.domain.SpaceDate"
+			parameterType="java.lang.String">
+		select
+		sd.space_date_id as spaceDateId, sd.space_id as spaceId, sd.tenant_id as tenantId,
+		sd.setting_date as settingDate, sd.begin_time as beginTime, sd.end_time as endTime,
+		s.name as spaceName
+		from lds_user_space_subscribe us
+		join lds_space_date sd on us.space_date_id = sd.space_date_id 
+		left join space s on sd.space_id = s.id 
+		where
+		us.user_id = #{userId,jdbcType=VARCHAR}
+	</select>
+
+	<select id="findSpaceDateId" resultType="java.lang.String"
+		parameterType="Map">
+		select
+		space_date_id
+		from lds_space_date
+		where space_id = #{spaceId} and setting_date = #{settingDate} and begin_time =
+		#{beginTime}
+		and end_time = #{endTime} and tenant_id = #{tenantId}
+	</select>
+
+	<!-- <select id="findBookableSpaceDateByTenantId" resultType="com.iot.domain.SpaceDateVO"
+		parameterType="java.lang.String">
+		SELECT DISTINCT c.t1 as beginTime, c.t2 as sumGalleryful, 
+		c.t21 as sumAlreadyGalleryful, d.t22 as endTime ,
+		d.setting_date as settingDate,	d.tenant_id as tenantId
+		from (
+		select * from (
+		select
+		begin_time t1,SUM(galleryful) t2
+		from lds_space_date
+		where unix_timestamp(begin_time) >= unix_timestamp(now()) and unix_timestamp(setting_date) >= UNIX_TIMESTAMP(CURRENT_DATE())
+		and tenant_id = #{tenantId} group by begin_time
+		) a,
+		(select begin_time t11 ,count(1) t21
+		from lds_space_date
+		a,lds_user_space_subscribe b
+		where a.space_date_id = b.space_date_id
+		and a.tenant_id = #{tenantId} and unix_timestamp(a.begin_time) >= unix_timestamp(now()) and
+		unix_timestamp(a.setting_date) >= UNIX_TIMESTAMP(CURRENT_DATE()) group by begin_time) b
+		where a.t1=b.t11 and a.t2>b.t21 ) c,
+		(SELECT begin_time t12, end_time t22, setting_date , tenant_id
+		FROM lds_space_date d) d
+		WHERE d.t12 = c.t1
+		ORDER BY CONCAT(beginTime,settingDate) ASC
+	</select> -->
+
+	<select id="findBookableSpaceDateByTenantId" resultType="com.iot.domain.SpaceTemplate"
+			parameterType="java.lang.String">
+		SELECT 
+		space_temple_id as spaceTempleId, space_id as spaceId, begin_time as beginTime,
+		end_time as endTime, tenant_id as tenantId
+		from lds_space_template
+		where space_id = '0' and tenant_id = #{tenantId}
+		ORDER BY  beginTime ASC
+	</select>
+	<delete id="deleteUserSubscribe" parameterType="Map">
+		delete
+		us
+		from lds_user_space_subscribe us join
+		lds_space_date sd on us.space_date_id = sd.space_date_id
+		where sd.setting_date
+		= #{settingDate} and sd.begin_time = #{beginTime} and sd.end_time =
+		#{endTime} and
+		sd.space_id = #{spaceId} and us.user_id = #{userId} and us.tenant_id =
+		#{tenantId}
+	</delete>
+
+	<insert id="saveUserSubscribe" parameterType="Map">
+		insert into
+		lds_user_space_subscribe (user_subscribe_id, user_id,
+		space_date_id,
+		tenant_id, create_time)
+		values (#{userSubscribeId,jdbcType=VARCHAR},
+		#{userId,jdbcType=VARCHAR},
+		#{spaceDateId,jdbcType=VARCHAR},
+		#{tenantId,jdbcType=VARCHAR}, now())
+	</insert>
+
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		lds_user_space_subscribe
+		where user_subscribe_id =
+		#{userSubscribeId,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="com.iot.domain.UserSpaceSubscribe">
+		insert into
+		lds_user_space_subscribe (user_subscribe_id, user_id,
+		space_date_id,
+		tenant_id, create_time, update_time,
+		create_by, update_by, is_deleted
+		)
+		values (#{userSubscribeId,jdbcType=VARCHAR},
+		#{userId,jdbcType=VARCHAR},
+		#{spaceDateId,jdbcType=VARCHAR},
+		#{tenantId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+		#{updateTime,jdbcType=TIMESTAMP},
+		#{createBy,jdbcType=VARCHAR},
+		#{updateBy,jdbcType=VARCHAR},
+		#{isDeleted,jdbcType=TINYINT}
+
+
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.iot.domain.UserSpaceSubscribe">
+		insert into lds_user_space_subscribe
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="userSubscribeId != null">
+				user_subscribe_id,
+			</if>
+			<if test="userId != null">
+				user_id,
+			</if>
+			<if test="spaceDateId != null">
+				space_date_id,
+			</if>
+			<if test="tenantId != null">
+				tenant_id,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="updateTime != null">
+				update_time,
+			</if>
+			<if test="createBy != null">
+				create_by,
+			</if>
+			<if test="updateBy != null">
+				update_by,
+			</if>
+			<if test="isDeleted != null">
+				is_deleted,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="userSubscribeId != null">
+				#{userSubscribeId,jdbcType=VARCHAR},
+			</if>
+			<if test="userId != null">
+				#{userId,jdbcType=VARCHAR},
+			</if>
+			<if test="spaceDateId != null">
+				#{spaceDateId,jdbcType=VARCHAR},
+			</if>
+			<if test="tenantId != null">
+				#{tenantId,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createBy != null">
+				#{createBy,jdbcType=VARCHAR},
+			</if>
+			<if test="updateBy != null">
+				#{updateBy,jdbcType=VARCHAR},
+			</if>
+			<if test="isDeleted != null">
+				#{isDeleted,jdbcType=TINYINT},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.iot.domain.UserSpaceSubscribe">
+		update lds_user_space_subscribe
+		<set>
+			<if test="userId != null">
+				user_id = #{userId,jdbcType=VARCHAR},
+			</if>
+			<if test="spaceDateId != null">
+				space_date_id = #{spaceDateId,jdbcType=VARCHAR},
+			</if>
+			<if test="tenantId != null">
+				tenant_id = #{tenantId,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createBy != null">
+				create_by = #{createBy,jdbcType=VARCHAR},
+			</if>
+			<if test="updateBy != null">
+				update_by = #{updateBy,jdbcType=VARCHAR},
+			</if>
+			<if test="isDeleted != null">
+				is_deleted = #{isDeleted,jdbcType=TINYINT},
+			</if>
+		</set>
+		where user_subscribe_id = #{userSubscribeId,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.iot.domain.UserSpaceSubscribe">
+		update
+		lds_user_space_subscribe
+		set user_id = #{userId,jdbcType=VARCHAR},
+		space_date_id = #{spaceDateId,jdbcType=VARCHAR},
+		tenant_id =
+		#{tenantId,jdbcType=VARCHAR},
+		create_time =
+		#{createTime,jdbcType=TIMESTAMP},
+		update_time =
+		#{updateTime,jdbcType=TIMESTAMP},
+		create_by =
+		#{createBy,jdbcType=VARCHAR},
+		update_by = #{updateBy,jdbcType=VARCHAR},
+		is_deleted = #{isDeleted,jdbcType=TINYINT}
+		where user_subscribe_id =
+		#{userSubscribeId,jdbcType=VARCHAR}
+	</update>
+</mapper>

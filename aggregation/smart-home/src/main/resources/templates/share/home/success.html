@@ -1,0 +1,133 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <style>
+#header {
+    background-color:#F0F0F0;
+    text-align:center;
+    padding:1px;
+}
+#nav {
+    line-height:30px;
+    background-color:#eeeeee;
+    height:300px;
+    width:100px;
+    float:left;
+    padding:5px;          
+}
+#section {
+    font-family: PingFangSC-Regular;
+    font-size: 20px;
+    color: #333333;
+    letter-spacing: 0;
+    line-height: 24px;    
+    text-align:center;   
+}
+#section2 {
+    font-family: PingFangSC-Regular;
+    font-size: 16px;
+    color: #666666;
+    letter-spacing: 0;
+    text-align: justify;
+    text-align:center;
+    line-height: 24px;  
+    margin-bottom: 86px; 
+}
+#footer {
+    background: #5A8FF2;
+    border-radius: 4px;
+    color:white;
+    clear:both;
+    text-align:center;
+    padding:5px;    
+    width:150px;
+    float:center;    
+}
+#btn {
+    background: black;
+    border-radius: 4px;
+    height: 44px;
+    width: 216px;
+    font-family: PingFangSC-Regular;
+    font-size: 17px;
+    color: #FFFFFF;
+    text-align: center;
+    margin-top: 20.5px;
+}
+#img {
+    margin-left: 49%;
+    margin-top: 64px;
+    text-align:center;
+}
+#img2 {
+    text-align:center;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+    </style>
+    <script language="JavaScript" type="text/javascript">
+function iosLink(id)
+{
+    window.location.href="index.html";
+}
+function androidLink(id)
+{
+    window.location.href="expired.html";
+}
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+</head>
+
+<body>
+<p>
+    <img th:src="@{/edm_arnoo_logo.png}" width="100" height="22"/>
+</p>
+<div id="header">
+</div>
+<p/>
+<img th:src="@{/common_icon_ssucceed_120.png}" width="54" height="54" id="img"/>
+<p/>
+<div id="section">
+    <a>You've accepted the invitation.</a>
+</div>
+<div id="section2">
+    <p>
+        Now get the app then start experience.
+    </p>
+</div>
+<div id="section">
+    <button id="btn" onClick="iosLink()"><img th:src="@{/edm_logo_app_store.png}" width="24" height="24" id="img2"/>
+        App Store
+    </button>
+</div>
+<div id="section2">
+    <button id="btn" onclick="androidLink()"><img th:src="@{/edm_logo_google_play.png}" width="24" height="24"
+                                                  id="img2"/>
+        Google Play
+    </button>
+</div>
+
+
+</body>
+</html>

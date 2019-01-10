@@ -1,0 +1,29 @@
+server:
+  port: 8022
+
+spring:
+  application:
+    name: hystrix-dashboard
+  profiles:
+    active: dev
+  cloud:
+    config:
+      #uri: http://192.168.6.118:8888
+      discovery:
+        enabled: true                  #是否通过eureka发现config-service
+        service-id: config-service     #config-service在eureka中的名称
+      name: ${spring.application.name}
+      profile: ${spring.profiles.active}
+
+eureka:
+  instance:
+    instanceId: ${spring.cloud.client.ipAddress}:${server.port}:${spring.application.name}:${spring.application.instance_id:${random.value}}
+    prefer-ip-address: true
+    metadata-map:
+      cluster: MAIN
+    leaseRenewalIntervalInSeconds: 1
+    leaseExpirationDurationInSeconds: 2
+  client:
+    serviceUrl:
+      defaultZone: http://admin:a!23456@192.168.6.118:8761/eureka/
+      #defaultZone: http://admin:a!23456@127.0.0.1:8761/eureka/

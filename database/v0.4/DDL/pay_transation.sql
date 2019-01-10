@@ -1,0 +1,1 @@
+ALTER TABLE `iot_db_payment`.`pay_transation` MODIFY COLUMN `refund_fail_reason`  varchar(1000) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '退款失败原因' AFTER `pay_fail_reason`;

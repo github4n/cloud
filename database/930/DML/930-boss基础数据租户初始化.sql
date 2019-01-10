@@ -1,0 +1,15 @@
+update iot_db_device.device_type a set a.tenant_id=-1 where isnull(a.tenant_id);
+update iot_db_device.device_type_to_service_module a set a.tenant_id=-1 where isnull(a.tenant_id);
+update iot_db_device.device_type_to_style a set a.tenant_id=-1 where isnull(a.tenant_id);
+update iot_db_device.module_action_to_property a set a.tenant_id=-1 where isnull(a.tenant_id);
+update iot_db_device.module_event_to_property a set a.tenant_id=-1 where isnull(a.tenant_id);
+update iot_db_device.service_module a set a.tenant_id=-1 where isnull(a.tenant_id);
+update iot_db_device.service_module_action a set a.tenant_id=-1 where isnull(a.tenant_id);
+update iot_db_device.service_module_event a set a.tenant_id=-1 where isnull(a.tenant_id);
+update iot_db_device.service_module_property a set a.tenant_id=-1 where isnull(a.tenant_id);
+update iot_db_device.service_module_style a set a.tenant_id=-1 where isnull(a.tenant_id);
+update iot_db_device.service_style_to_template a set a.tenant_id=-1 where isnull(a.tenant_id);
+update iot_db_device.service_to_action a set a.tenant_id=-1 where isnull(a.tenant_id);
+update iot_db_device.service_to_event a set a.tenant_id=-1 where isnull(a.tenant_id);
+update iot_db_device.service_to_property a set a.tenant_id=-1 where isnull(a.tenant_id);
+update iot_db_device.style_template a set a.tenant_id=-1 where isnull(a.tenant_id);

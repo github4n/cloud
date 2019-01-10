@@ -1,0 +1,11 @@
+
+
+spring:
+
+  messages:
+    basename: i18n/messages
+    cache-seconds: 3600
+    lang: US #CN US
+
+
+

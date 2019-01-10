@@ -1,0 +1,67 @@
+server:
+  port: 8769
+
+spring:
+  application:
+    name: mobile-gateway
+  profiles:
+    active: dev
+  cloud:
+    config:
+      #uri: http://192.168.6.118:8888
+      discovery:
+        enabled: true                  #是否通过eureka发现config-service
+        service-id: config-service     #config-service在eureka中的名称
+      name: ${spring.application.name}
+      profile: ${spring.profiles.active}
+
+zuul:
+  routes:
+    device-central:
+      path: /device-central/**
+      serviceId: device-service
+      stripPrefix: false
+    device:
+      path: /device/**
+      serviceId: business-portal
+      stripPrefix: false
+    ifttt:
+      path: /ifttt/rule/**
+      serviceId: business-portal
+      stripPrefix: false
+    peopleSteam:
+      path: /peopleSteam/**
+      serviceId: business-portal
+      stripPrefix: false
+    scene:
+      path: /sceneController/**
+      serviceId: business-portal
+      stripPrefix: false
+    userCheck:
+      path: /userCheck/**
+      serviceId: business-portal
+      stripPrefix: false
+    demo:
+      path: /demo/**
+      serviceId: demo-system
+      stripPrefix: false
+    appUser:
+      path: /appUser/**
+      serviceId: smart-home
+      stripPrefix: false
+
+eureka:
+  client:
+    registryFetchIntervalSeconds: 5
+    healthcheck:
+      enabled: true
+    serviceUrl:
+      defaultZone: http://admin:a!23456@192.168.5.20:8761/eureka/
+  instance:
+    instanceId: ${spring.cloud.client.ipAddress}:${server.port}:${spring.application.name}:${spring.application.instance_id:${random.value}}
+    prefer-ip-address: true
+    metadata-map:
+      cluster: MAIN
+      user:
+        name: admin
+        password: a!23456

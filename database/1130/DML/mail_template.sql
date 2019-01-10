@@ -1,0 +1,5 @@
+REPLACE INTO `iot_db_system`.`lang_info` (`id`, `lang_type`, `lang_key`, `lang_value`, `create_by`, `create_time`, `update_by`, `update_time`, `is_deleted`) VALUES ('51026', 'en_US', 'email:generalmail', '${message}', NULL, NULL, NULL, NULL, 'valid');
+REPLACE INTO `iot_db_system`.`lang_info` (`id`, `lang_type`, `lang_key`, `lang_value`, `create_by`, `create_time`, `update_by`, `update_time`, `is_deleted`) VALUES ('51027', 'zh_CN', 'email:generalmail', '${message}', NULL, '2018-11-02 03:01:27', NULL, '2018-11-02 03:01:27', 'valid');
+
+REPLACE INTO `iot_db_message`.`push_notice_template` (`id`, `template_id`, `template_name`, `template_content`, `template_type`, `creator`, `create_time`, `is_delete`, `tenant_id`) VALUES ('12', 'CH00011', '测试模板', 'email:generalmail', '1', 'lishuai', '2018-03-17 17:34:26', '0', NULL);
+REPLACE INTO `iot_db_message`.`push_notice_template` (`id`, `template_id`, `template_name`, `template_content`, `template_type`, `creator`, `create_time`, `is_delete`, `tenant_id`) VALUES ('24', 'EN00011', 'template 1', 'email:generalmail', '1', 'lishuai', '2018-03-17 14:19:47', '0', NULL);
