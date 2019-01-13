@@ -24,5 +24,6 @@
     <module>tenant-portal</module>
     <module>performance</module>
     <module>open-api</module>
+    <module>lms</module>
   </modules>
 </project>

@@ -28,7 +28,7 @@
 		</dependencies>
 	</dependencyManagement>
 
-	<repositories>
+	<!--<repositories>
 		<repository>
 			<id>releases</id>
 			<name>releases repository</name>
@@ -40,7 +40,7 @@
 			<id>thirdparty</id>
 			<url>http://172.24.185.20:8081/nexus/content/repositories/thirdparty</url>
 		</pluginRepository>
-	</pluginRepositories>
+	</pluginRepositories>-->
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

@@ -4,12 +4,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.iot</groupId>
-    <artifactId>oauth2</artifactId>
+    <artifactId>oauth2.0</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>oauth2</name>
-    <description>oauth2</description>
+    <name>oauth2.0</name>
+    <description>oauth2.0</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -37,7 +37,7 @@
         <java.version>1.8</java.version>
     </properties>
 
-    <repositories>
+    <!--<repositories>
         <repository>
             <id>thirdparty</id>
             <name>thirdparty repository</name>
@@ -48,7 +48,7 @@
             <name>releases repository</name>
             <url>http://172.24.185.20:8081/nexus/content/repositories/releases/</url>
         </repository>
-    </repositories>
+    </repositories>-->
 
     <dependencies>
         <dependency>
@@ -123,11 +123,11 @@
             <artifactId>user-service-interface</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
-        <dependency>
+        <!--<dependency>
             <groupId>gossoon</groupId>
             <artifactId>gossoon-restful</artifactId>
             <version>1.0</version>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid</artifactId>

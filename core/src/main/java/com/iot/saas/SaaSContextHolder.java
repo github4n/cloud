@@ -62,8 +62,9 @@ public class SaaSContextHolder {
 
     protected static void delete(String key) {
         Map<String, Object> currentContextMap = currentContextMap();
-        if (currentContextMap.containsKey(key))
+        if (currentContextMap.containsKey(key)) {
             currentContextMap.remove(key);
+        }
     }
 
     public static void removeCurrentContextMap() {

@@ -25,5 +25,6 @@
         <module>open-api-service-project</module>
         <module>air-switch-project</module>
         <module>report-service-project</module>
+        <module>lms-biz-project</module>
     </modules>
 </project>

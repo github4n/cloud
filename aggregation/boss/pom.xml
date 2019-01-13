@@ -113,11 +113,6 @@
         </dependency>
         <dependency>
             <groupId>com.iot</groupId>
-            <artifactId>control-service-interface</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.iot</groupId>
             <artifactId>smart-home-service-interface</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
@@ -147,21 +142,6 @@
         <dependency>
             <groupId>com.iot</groupId>
             <artifactId>payment-service-interface</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.iot</groupId>
-            <artifactId>user-service-interface</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.iot</groupId>
-            <artifactId>boss-service-interface</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.iot</groupId>
-            <artifactId>user-service-interface</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
